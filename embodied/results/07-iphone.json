@@ -1,0 +1,26 @@
+{
+  "machine": {
+    "platform": "iOS-26.5-iPhone17,1-arm64-64bit",
+    "machine": "iPhone17,1",
+    "system": "iOS",
+    "cores": 1,
+    "python": "3.13.1+",
+    "have_numpy": true,
+    "cpu": "arm64",
+    "env": "phone"
+  },
+  "reps": 9,
+  "note": "costs transcribed by hand from a-shell compact output (per-rep std unavailable)",
+  "work_levels": [64, 128, 256, 512],
+  "work_costs_s": {
+    "64": {"mean": 0.00029444, "std": 0.0},
+    "128": {"mean": 0.00109444, "std": 0.0},
+    "256": {"mean": 0.00536667, "std": 0.0},
+    "512": {"mean": 0.02964444, "std": 0.0}
+  },
+  "look_costs_s": {
+    "shallow_inproc": {"available": true, "mean": 0.00000667, "std": 0.0},
+    "proc_inproc": {"available": false, "reason": "FileNotFoundError"},
+    "deep_subprocess": {"available": true, "mean": 0.00488889, "std": 0.0}
+  }
+}
