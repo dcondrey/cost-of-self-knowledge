@@ -1,0 +1,54 @@
+{
+  "machine": {
+    "platform": "Linux-5.15.0-46-generic-x86_64-with-glibc2.35",
+    "machine": "x86_64",
+    "system": "Linux",
+    "cores": 4,
+    "python": "3.10.12",
+    "have_numpy": false,
+    "cpu": "Intel(R) Core(TM) i3-7100U CPU @ 2.40GHz",
+    "env": "local"
+  },
+  "reps": 9,
+  "work_levels": [
+    50000,
+    100000,
+    200000,
+    400000
+  ],
+  "work_costs_s": {
+    "50000": {
+      "mean": 0.005394444444444445,
+      "std": 0.00014989708403591166
+    },
+    "100000": {
+      "mean": 0.011072222222222218,
+      "std": 0.0005137612454087527
+    },
+    "200000": {
+      "mean": 0.02621111111111111,
+      "std": 0.005205860894637998
+    },
+    "400000": {
+      "mean": 0.0455111111111111,
+      "std": 0.0022494169340542204
+    }
+  },
+  "look_costs_s": {
+    "shallow_inproc": {
+      "available": true,
+      "mean": 1.2500000000000473e-06,
+      "std": 5.89255650989091e-07
+    },
+    "proc_inproc": {
+      "available": true,
+      "mean": 0.0003883333333333323,
+      "std": 6.6666666666680964e-06
+    },
+    "deep_subprocess": {
+      "available": true,
+      "mean": 0.0024444444444444843,
+      "std": 0.0001571348402638878
+    }
+  }
+}
