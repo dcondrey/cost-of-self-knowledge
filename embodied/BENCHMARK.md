@@ -17,14 +17,10 @@ modal run modal_app.py                     # prints JSON
 ```
 Save the JSON to `results/02-modal-linux.json`.
 
-**3. Google Colab** — paste this one cell, run it, copy the JSON it prints into
-`results/03-colab.json` (set `REPO` to your pushed repo URL first):
-```python
-!git clone -q REPO repo && pip -q install numpy
-import subprocess; print(subprocess.run(["python","repo/embodied/benchmark.py"],
-                                         capture_output=True, text=True, cwd="repo/embodied").stdout)
-```
-(If no repo yet, paste the contents of `benchmark.py` into a cell and run it directly.)
+**3. Google Colab** — the repo is private, so don't clone. Paste the entire contents of
+`benchmark.py` into one Colab cell and run it (numpy is preinstalled). Copy the JSON it prints into
+`results/03-colab.json`. (Colab gives a Linux VM, often with a GPU host, so `proc_inproc` is
+available there too.)
 
 **4. GitHub CI (ubuntu + macOS + windows, automatic)** — pushing this repo triggers
 `.github/workflows/benchmark.yml`, which runs the benchmark on all three OS runners and uploads
