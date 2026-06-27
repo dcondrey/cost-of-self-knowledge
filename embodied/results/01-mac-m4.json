@@ -1,0 +1,32 @@
+{
+  "machine": {
+    "platform": "macOS-26.5-arm64-arm-64bit-Mach-O",
+    "machine": "arm64",
+    "system": "Darwin",
+    "cores": 10,
+    "python": "3.14.6",
+    "have_numpy": true,
+    "cpu": "Apple M4",
+    "env": "local"
+  },
+  "reps": 9,
+  "work_unit_s_mean": 0.00019999999999999998,
+  "modalities": {
+    "shallow_inproc": {
+      "available": true,
+      "cost_s_mean": 2.77777777777778e-07,
+      "look_frac_mean": 0.0013802622498274688,
+      "look_frac_std": 0.002582234221376084
+    },
+    "proc_inproc": {
+      "available": false,
+      "reason": "FileNotFoundError"
+    },
+    "deep_subprocess": {
+      "available": true,
+      "cost_s_mean": 0.01422222222222222,
+      "look_frac_mean": 0.9861308665557346,
+      "look_frac_std": 0.00015099157822862628
+    }
+  }
+}

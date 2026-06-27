@@ -1,0 +1,13 @@
+# caches / envs
+__pycache__/
+*.pyc
+.venv/
+.uv_cache/
+.pytest_cache/
+.DS_Store
+
+# transient per-machine benchmark output (the curated copies live in results/)
+embodied/benchmark_result.json
+
+# blindmind artifacts are a separate project
+seeds_*.json
