@@ -35,10 +35,14 @@ _written_mb = [0.0]    # running wear tracker
 
 def _linux_temp():
     vals = []
-    for f in glob.glob("/sys/class/thermal/thermal_zone*/temp"):
+    paths = (glob.glob("/sys/class/thermal/thermal_zone*/temp")
+             + glob.glob("/sys/class/hwmon/hwmon*/temp*_input"))
+    for f in paths:
         try:
             with open(f) as fh:
-                vals.append(int(fh.read().strip()) / 1000.0)
+                v = int(fh.read().strip()) / 1000.0
+            if 10.0 < v < 130.0:                 # plausible CPU temp in Celsius
+                vals.append(v)
         except (OSError, ValueError):
             pass
     return max(vals) if vals else None
