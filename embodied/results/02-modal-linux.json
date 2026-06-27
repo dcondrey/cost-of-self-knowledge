@@ -1,0 +1,54 @@
+{
+  "machine": {
+    "platform": "Linux-4.19.0-gvisor-x86_64-with-glibc2.36",
+    "machine": "x86_64",
+    "system": "Linux",
+    "cores": 18,
+    "python": "3.12.10",
+    "have_numpy": true,
+    "cpu": "unknown",
+    "env": "modal"
+  },
+  "reps": 9,
+  "work_levels": [
+    64,
+    128,
+    256,
+    512
+  ],
+  "work_costs_s": {
+    "64": {
+      "mean": 3.888888888888889e-05,
+      "std": 2.0786985482077453e-05
+    },
+    "128": {
+      "mean": 0.0005,
+      "std": 3.4073187037408314e-19
+    },
+    "256": {
+      "mean": 0.003633333333333333,
+      "std": 0.0007055336829505575
+    },
+    "512": {
+      "mean": 0.019022222222222232,
+      "std": 0.000582671582316748
+    }
+  },
+  "look_costs_s": {
+    "shallow_inproc": {
+      "available": true,
+      "mean": 4.5833333333333095e-06,
+      "std": 2.1245914639971518e-06
+    },
+    "proc_inproc": {
+      "available": true,
+      "mean": 0.00017499999999999992,
+      "std": 3.374742788552801e-05
+    },
+    "deep_subprocess": {
+      "available": true,
+      "mean": 0.015166666666666676,
+      "std": 0.002074239411399394
+    }
+  }
+}

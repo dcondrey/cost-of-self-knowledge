@@ -1,0 +1,53 @@
+{
+  "machine": {
+    "platform": "macOS-26.4-arm64-arm-64bit",
+    "machine": "arm64",
+    "system": "Darwin",
+    "cores": 3,
+    "python": "3.12.10",
+    "have_numpy": true,
+    "cpu": "Apple M1 (Virtual)",
+    "env": "github_ci"
+  },
+  "reps": 9,
+  "work_levels": [
+    64,
+    128,
+    256,
+    512
+  ],
+  "work_costs_s": {
+    "64": {
+      "mean": 3.8888888888888884e-05,
+      "std": 2.078698548207745e-05
+    },
+    "128": {
+      "mean": 0.00019444444444444443,
+      "std": 1.5713484026367777e-05
+    },
+    "256": {
+      "mean": 0.0010833333333333333,
+      "std": 2.357022603955173e-05
+    },
+    "512": {
+      "mean": 0.008105555555555553,
+      "std": 0.00023386183533165812
+    }
+  },
+  "look_costs_s": {
+    "shallow_inproc": {
+      "available": true,
+      "mean": 4.166666666667318e-07,
+      "std": 5.892556509888817e-07
+    },
+    "proc_inproc": {
+      "available": false,
+      "reason": "FileNotFoundError"
+    },
+    "deep_subprocess": {
+      "available": true,
+      "mean": 0.0162962962962963,
+      "std": 0.00033126932999997437
+    }
+  }
+}

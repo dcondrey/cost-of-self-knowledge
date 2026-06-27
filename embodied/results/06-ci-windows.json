@@ -1,0 +1,52 @@
+{
+  "machine": {
+    "platform": "Windows-2025Server-10.0.26100-SP0",
+    "machine": "AMD64",
+    "system": "Windows",
+    "cores": 2,
+    "python": "3.12.10",
+    "have_numpy": true,
+    "cpu": "AMD64 Family 25 Model 1 Stepping 1, AuthenticAMD",
+    "env": "github_ci"
+  },
+  "reps": 9,
+  "work_levels": [
+    64,
+    128,
+    256,
+    512
+  ],
+  "work_costs_s": {
+    "64": {
+      "mean": 6.944444444444444e-05,
+      "std": 2.4552318791199566e-05
+    },
+    "128": {
+      "mean": 0.00034722222222222224,
+      "std": 7.46729623875228e-05
+    },
+    "256": {
+      "mean": 0.002534722222222222,
+      "std": 0.00012816686684230383
+    },
+    "512": {
+      "mean": 0.015121527777777777,
+      "std": 0.0002554503293326762
+    }
+  },
+  "look_costs_s": {
+    "shallow_inproc": {
+      "available": false,
+      "reason": "AttributeError"
+    },
+    "proc_inproc": {
+      "available": false,
+      "reason": "FileNotFoundError"
+    },
+    "deep_subprocess": {
+      "available": true,
+      "mean": 0.001880787037037037,
+      "std": 0.00047191858883970165
+    }
+  }
+}
