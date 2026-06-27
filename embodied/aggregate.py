@@ -1,9 +1,12 @@
-"""Aggregate benchmark_result.json files from every machine into the cross-substrate table + figure.
+"""Aggregate v2 benchmark_result.json files into the cross-substrate raw-cost table + figures.
 
-Drop each machine's benchmark_result.json into results/ (named however you like). This reads them
-all, builds the look_frac-per-modality-per-machine table (mean +/- std), and plots each machine
-against the break-even band, showing the generality claim: on every real substrate, shallow
-introspection is cheap (below break-even) and deep self-telemetry is dear (above it).
+Each machine's JSON (schema v2) reports raw CPU-second costs: cost-per-look per modality and
+cost-per-work across a sweep of work-unit sizes. The substrate-invariant facts are the raw costs;
+look_frac = cost_look / (cost_look + cost_work) is derived and work-scale-dependent. We therefore:
+  - table  : raw cost-per-look per modality (denominator-free) + the work-cost range, per machine
+  - W_crit : the critical work-unit cost (seconds) at which deep introspection reaches break-even
+  - fig    : look_frac(deep) vs work-unit cost per machine, with the break-even band, showing the
+             conclusion is robust across the whole work-scale sweep rather than one chosen unit
 """
 import glob
 import json
@@ -19,65 +22,88 @@ import pandas as pd
 logging.basicConfig(level=logging.INFO, format="%(message)s", stream=sys.stdout)
 log = logging.getLogger("aggregate")
 
-BREAKEVEN_LO, BREAKEVEN_HI = 0.04, 0.31      # from study.py main + sensitivity range
-MODALITIES = ["shallow_inproc", "proc_inproc", "deep_subprocess"]
+BE_LO, BE_HI = 0.04, 0.31                    # break-even band from study.py (main + sensitivity)
+BE_MID = 0.175
+MODS = ["shallow_inproc", "proc_inproc", "deep_subprocess"]
 
 
 def load():
-    rows = []
+    machines = []
     for path in sorted(glob.glob("results/*.json")):
         d = json.load(open(path))
+        if "work_costs_s" not in d:
+            log.info(f"  skip {path} (old schema v1; re-run benchmark.py v2)")
+            continue
         m = d["machine"]
-        label = f"{m.get('cpu') or m.get('system')} ({m.get('env','?')})"[:34]
-        row = {"machine": label, "system": m.get("system"), "env": m.get("env"),
-               "cores": m.get("cores"), "work_us": d.get("work_unit_s_mean", 0) * 1e6, "file": path}
-        for k in MODALITIES:
-            md = d["modalities"].get(k, {})
-            row[k] = md.get("look_frac_mean") if md.get("available") else None
-            row[k + "_std"] = md.get("look_frac_std", 0.0) if md.get("available") else None
-        rows.append(row)
-    return pd.DataFrame(rows)
+        d["_label"] = f"{(m.get('cpu') or m.get('system'))[:26]} [{m.get('env','?')}]"
+        d["_file"] = path
+        machines.append(d)
+    return machines
+
+
+def look_cost(d, mod):
+    md = d["look_costs_s"].get(mod, {})
+    return md.get("mean") if md.get("available") else None
+
+
+def work_curve(d):
+    wc = d["work_costs_s"]
+    return [(int(k), wc[k]["mean"]) for k in sorted(wc, key=int)]
 
 
 def main():
-    df = load()
-    if df.empty:
-        log.info("no results/*.json found. Run benchmark.py on each machine and drop the JSON in results/.")
+    ms = load()
+    if not ms:
+        log.info("no v2 results/*.json found. Run benchmark.py (v2) on each machine.")
         return 1
-    log.info(f"Aggregated {len(df)} machine(s).")
-    show = ["machine", "system", "cores", "work_us"] + MODALITIES
-    log.info(df[show].to_string(index=False, float_format=lambda x: f"{x:.4f}" if x == x else "n/a"))
+    log.info(f"Aggregated {len(ms)} machine(s) (schema v2).")
+
+    rows = []
+    for d in ms:
+        deep = look_cost(d, "deep_subprocess")
+        w_crit = deep * (1 - BE_MID) / BE_MID if deep else None     # work cost where look_frac = break-even
+        wmin = min(c for _, c in work_curve(d))
+        wmax = max(c for _, c in work_curve(d))
+        rows.append({"machine": d["_label"], "system": d["machine"].get("system"),
+                     "shallow_s": look_cost(d, "shallow_inproc"),
+                     "proc_s": look_cost(d, "proc_inproc"),
+                     "deep_s": deep,
+                     "work_s_range": f"{wmin:.2e}-{wmax:.2e}",
+                     "Wcrit_deep_s": w_crit})
+    df = pd.DataFrame(rows)
+    log.info(df.to_string(index=False))
     df.to_csv("benchmark_cross_machine.csv", index=False)
 
-    fig, ax = plt.subplots(figsize=(8, 0.5 * len(df) + 2))
-    ax.axvspan(BREAKEVEN_LO, BREAKEVEN_HI, color="grey", alpha=0.18, label="break-even band (model)")
-    colors = {"shallow_inproc": "green", "proc_inproc": "orange", "deep_subprocess": "red"}
-    marks = {"shallow_inproc": "o", "proc_inproc": "s", "deep_subprocess": "D"}
-    for k in MODALITIES:
-        ys, xs, xe = [], [], []
-        for i, r in df.iterrows():
-            if r[k] is not None and r[k] == r[k]:
-                ys.append(i); xs.append(r[k]); xe.append(r[k + "_std"] or 0)
-        if xs:
-            ax.errorbar(xs, ys, xerr=xe, fmt=marks[k], color=colors[k], ms=7, capsize=3,
-                        label=k.replace("_", " "), ls="none")
-    ax.set_yticks(range(len(df))); ax.set_yticklabels(df["machine"], fontsize=8)
-    ax.set_xscale("symlog", linthresh=0.01)
-    ax.set_xlabel("cost of self-knowledge  (look_frac, log scale)")
-    ax.set_title("The cost of self-introspection across real substrates")
-    ax.legend(fontsize=8, loc="lower right")
-    ax.grid(axis="x", alpha=0.3)
+    # Figure: look_frac(deep) vs work-unit cost per machine, with break-even band.
+    fig, ax = plt.subplots(figsize=(8, 5))
+    ax.axhspan(BE_LO, BE_HI, color="grey", alpha=0.18, label="break-even band (model)")
+    for d in ms:
+        deep = look_cost(d, "deep_subprocess")
+        if not deep:
+            continue
+        xs = [c for _, c in work_curve(d)]
+        ys = [deep / (deep + c) for c in xs]
+        ax.plot(xs, ys, "-o", ms=4, label=d["_label"], alpha=0.85)
+    ax.set_xscale("log")
+    ax.set_xlabel("cost of one work-unit (CPU seconds, log)")
+    ax.set_ylabel("look_frac of DEEP self-telemetry")
+    ax.set_ylim(0, 1.02)
+    ax.set_title("Cost of deep self-knowledge vs work scale, across substrates")
+    ax.legend(fontsize=7, loc="lower left")
+    ax.grid(alpha=0.3)
     fig.tight_layout(); fig.savefig("fig3_cross_machine.png", dpi=150); plt.close(fig)
 
-    deep = df["deep_subprocess"].dropna()
-    shal = df["shallow_inproc"].dropna()
-    log.info("-" * 60)
-    if len(deep):
-        log.info(f"deep self-telemetry: {deep.min():.3f}-{deep.max():.3f} across machines "
-                 f"(all {'ABOVE' if deep.min() > BREAKEVEN_HI else 'mixed vs'} break-even)")
-    if len(shal):
-        log.info(f"shallow introspection: {shal.min():.4f}-{shal.max():.4f} "
-                 f"(all {'BELOW' if shal.max() < BREAKEVEN_LO else 'mixed vs'} break-even)")
+    sh = [r["shallow_s"] for r in rows if r["shallow_s"]]
+    dp = [r["deep_s"] for r in rows if r["deep_s"]]
+    wc = [r["Wcrit_deep_s"] for r in rows if r["Wcrit_deep_s"]]
+    log.info("-" * 70)
+    if sh:
+        log.info(f"cost-per-look shallow : {min(sh):.2e}-{max(sh):.2e} s  (in-process, ~free)")
+    if dp:
+        log.info(f"cost-per-look deep    : {min(dp):.2e}-{max(dp):.2e} s  ({max(dp)/min(dp):.0f}x spread)")
+    if wc:
+        log.info(f"critical work scale   : {min(wc):.2e}-{max(wc):.2e} s  -- below this work-unit cost, "
+                 f"deep self-knowledge is not worth its price")
     log.info("Wrote benchmark_cross_machine.csv, fig3_cross_machine.png")
     return 0
 
