@@ -1,0 +1,34 @@
+{
+  "machine": {
+    "platform": "Linux-6.17.0-1018-azure-x86_64-with-glibc2.39",
+    "machine": "x86_64",
+    "system": "Linux",
+    "cores": 2,
+    "python": "3.12.13",
+    "have_numpy": true,
+    "cpu": "AMD EPYC 9V74 80-Core Processor",
+    "env": "github_ci"
+  },
+  "reps": 9,
+  "work_unit_s_mean": 0.003414814814814815,
+  "modalities": {
+    "shallow_inproc": {
+      "available": true,
+      "cost_s_mean": 1.944444444444428e-06,
+      "look_frac_mean": 0.0005690275275294695,
+      "look_frac_std": 0.000250384079941899
+    },
+    "proc_inproc": {
+      "available": true,
+      "cost_s_mean": 8.222222222222234e-05,
+      "look_frac_mean": 0.023507938356384445,
+      "look_frac_std": 0.0019806031059480863
+    },
+    "deep_subprocess": {
+      "available": true,
+      "cost_s_mean": 0.0018888888888888913,
+      "look_frac_mean": 0.35585942186880004,
+      "look_frac_std": 0.013646719299382545
+    }
+  }
+}
