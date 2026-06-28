@@ -1,0 +1,18 @@
+{
+  "host": "ubuntu-laptop",
+  "system": "Linux",
+  "cpu": "Intel(R) Core(TM) i3-7100U",
+  "source": "cpu",
+  "mode": "compute",
+  "note": "first run; perturbation = busy cores (compute proxy for self-measurement). Transcribed by hand from terminal.",
+  "hold_s": 25.0,
+  "levels": [0, 1, 2, 3, 4],
+  "baseline": 39.0,
+  "up": {"0": 38.4, "1": 50.2, "2": 53.4, "3": 57.6, "4": 59.4},
+  "down": {"4": 60.2, "3": 60.6, "2": 59.6, "1": 56.0, "0": 48.0},
+  "delta_min": 11.2,
+  "hysteresis": 5.08,
+  "t0_up": 41.91,
+  "t0_down": 51.08,
+  "irreducible": true
+}
