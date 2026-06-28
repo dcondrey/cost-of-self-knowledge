@@ -7,14 +7,18 @@ system's state — a self-measurement impossibility, classical or quantum. The r
 First, we give what we believe are the **first empirical measurements** of a self-measurement limit on
 real computing hardware. Second, we **extend the limit from static indistinguishability to dynamic
 back-action**: the act of self-measurement *changes the state being measured*, irreducibly, with a floor
-bounded below by the measurement apparatus's own footprint. We show this in two independent channels. In
+bounded below by the measurement apparatus's own footprint. We show this in three independent channels. In
 the **thermal** channel, a system reading its own temperature heats the substrate with thermal memory;
 ramping self-measurement intensity up then down on a consumer CPU and three datacenter GPUs yields a
 bounded-below perturbation floor (+6.6 to +23.4 °C), hysteresis (+3.1 to +10.4 °C), and an unstable
 zero-intensity extrapolation — three signatures that no reading recovers the unperturbed state, with the
 effect growing under thermal stress. In the **informational** channel, a process can faithfully checksum
 99.997% of itself but never the checksum apparatus; the un-capturable core equals the apparatus footprint,
-is never zero, and never converges to a fixed point. We also measure that self-knowledge is *costly* and
+is never zero, and never converges to a fixed point. In the **quantum** channel, on a real 156-qubit
+superconducting QPU, a contained observer that must read itself with no fresh ancilla pays a measured
+information–disturbance penalty Δ = 0.243 (vs 0.25 noiseless) over an external observer extracting the same
+information — the operational, hardware-measured form of Breuer's contained-observer limit. We also measure
+that self-knowledge is *costly* and
 modality-dependent across seven substrates, with a critical work scale below which reading one's own state
 is not worth its price. We argue the consequences bear directly on machine introspection — where current
 self-report is measured to be unreliable — recasting that unreliability as in part a measurement
@@ -56,9 +60,10 @@ from cost, but for *external* signals and without state perturbation. The monito
 bodies; we provide a real substrate with measured costs and a measured irreducibility.
 
 ## 3. The self-measurement back-action (extending Breuer)
-We measure that self-observation perturbs the observed in two channels. The shared structure: the
-perturbation has a bounded-below floor, depends on measurement history (cannot be calibrated out, because
-measuring the perturbation perturbs again), and so leaves the unperturbed self-state unrecoverable.
+We measure that self-observation perturbs the observed in three channels. The shared structure: the
+perturbation has a bounded-below floor (the apparatus's own footprint), and so leaves the unperturbed
+self-state unrecoverable — recoverable neither by a single reading nor by extrapolation, because the
+apparatus is part of the system it measures.
 
 ### 3.1 Thermal channel
 **Method.** Ramp self-measurement intensity 0→max→0; read own temperature (`/sys` on CPU, `nvidia-smi` on
@@ -94,10 +99,28 @@ is the structural floor: the result of self-measurement must be stored *in* the 
 zero-footprint faithful self-snapshot is impossible. (The floor is structural, not thermodynamic — we do
 not ground it in Landauer.)
 
-### 3.3 The never-off corollary
+### 3.3 Quantum channel
+**Method.** A two-qubit "self" `{q0,q1}` is prepared in `|+⟩|+⟩` (its coherence is the state to preserve).
+We read `q0` two ways and compare the disturbance to the self at *matched* information. An **external**
+observer brings a fresh `|0⟩` ancilla, couples it to `q0`, and measures it. A **contained** observer has no
+fresh ancilla — the self is fully occupied — so to obtain a usable pointer it must **erase** a self-qubit
+(`q1`), then read `q0` through it. Disturbance is read out by echo (`U†`, then measure); information is the
+monitor's which-path statistics, matched across the two cases.
+
+**Result (real hardware).** On `ibm_kingston` (156-qubit Heron, 8192 shots), at matched full information the
+external observer disturbs the self by `D = 0.491` while the contained observer disturbs it by `D = 0.734`,
+a penalty **Δ = 0.243** — within 3% of the noiseless value 0.25. The penalty is the cost of having no fresh
+ancilla: standard information–disturbance bounds assume free dilation (an appendable `|0⟩`), which a
+contained observer lacks, so it must spend part of itself to make a pointer. This is, to our knowledge, the
+first hardware measurement of a contained-observer information–disturbance penalty and the operational form
+of Breuer's static contained-observer theorem. (We argue, but do not prove, that Δ is not recovered by
+applying a standard external bound to the joint `{q0,q1}` subspace, since those bounds assume the dilation
+containment denies.)
+
+### 3.4 The never-off corollary
 A continuously-operating system can never sample its own resting state, because operating is the
 perturbation and the substrate retains it — thermal mass in the physical channel, the stored result in the
-informational channel.
+informational channel, and the spent apparatus qubit in the quantum channel.
 
 ## 4. The cost of self-knowledge (companion result)
 Measuring cost-per-self-observation at three modalities against a swept work-unit size across seven
@@ -129,19 +152,23 @@ measured quantities, the embodied claim that a system's relation to itself is ma
 ## 8. Limitations
 We lead with these. (1) We *extend and measure* Breuer; we do not re-derive the impossibility, and we do not
 claim it. (2) The thermal mechanism is ordinary thermodynamics and the informational floor is ordinary
-self-reference; the contribution is the measurement, the dynamic back-action framing, and the two-channel
-demonstration, not surprising physics. (3) The informational floor is structural, not a thermodynamic
-bound. (4) Thermal hysteresis is shown on one bare-metal CPU plus three GPUs; absolute magnitudes vary with
-cooling — the qualitative irreducibility replicates, the numbers are not a universal constant. (5)
-Apple-Silicon CPU temperature and virtualized thermal are unmeasured (themselves points on the availability
-axis). (6) The introspection implication is an argument from analogy between substrate-level self-snapshot
-and representational self-report; we make the analogy explicit and do not overstate it.
+self-reference; the contribution is the measurement, the dynamic back-action framing, and the three-channel
+demonstration, not surprising physics (quantum measurement back-action is textbook; we contribute its
+self-measurement framing and the contained-observer penalty). (3) The informational floor is structural, not
+a thermodynamic bound. (4) Thermal hysteresis is shown on one bare-metal CPU plus three GPUs; absolute
+magnitudes vary with cooling — the qualitative irreducibility replicates, the numbers are not a universal
+constant. (5) The quantum penalty Δ is measured and matches simulation, but our claim that it is *not*
+reducible to a standard external info-disturbance bound on the enlarged subspace is an argument (the
+no-dilation constraint), not yet a proven theorem. (6) Apple-Silicon CPU temperature and virtualized thermal
+are unmeasured (themselves points on the availability axis). (7) The introspection implication is an argument
+from analogy between substrate-level self-measurement and representational self-report; we make the analogy
+explicit and do not overstate it.
 
 ## 9. Conclusion
-Self-knowledge on real substrates is bounded twice — by cost, and by an irreducible self-perturbation that
-extends a known self-measurement impossibility from static indistinguishability to measured dynamic
-back-action. A machine cannot cheaply, and cannot fully, read its own physical state; it cannot read its
-own resting state at all.
+Self-knowledge on real substrates is bounded twice — by cost, and by an irreducible self-perturbation
+measured in three independent channels (thermal, informational, quantum) that extends a known
+self-measurement impossibility from static indistinguishability to measured dynamic back-action. A machine
+cannot cheaply, and cannot fully, read its own physical state; it cannot read its own resting state at all.
 
 ---
 
