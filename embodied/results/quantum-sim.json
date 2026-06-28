@@ -1,0 +1,67 @@
+{
+  "backend": "aer_simulator",
+  "shots": 8192,
+  "penalty_matched_full": 0.2525,
+  "rows": [
+    {
+      "mode": "external",
+      "theta": 0.0,
+      "disturbance": 0.0,
+      "info": 0.0
+    },
+    {
+      "mode": "internal",
+      "theta": 0.0,
+      "disturbance": 0.4979,
+      "info": 0.0
+    },
+    {
+      "mode": "external",
+      "theta": 0.7854,
+      "disturbance": 0.0367,
+      "info": 0.0718
+    },
+    {
+      "mode": "internal",
+      "theta": 0.7854,
+      "disturbance": 0.5134,
+      "info": 0.0719
+    },
+    {
+      "mode": "external",
+      "theta": 1.5708,
+      "disturbance": 0.1492,
+      "info": 0.2516
+    },
+    {
+      "mode": "internal",
+      "theta": 1.5708,
+      "disturbance": 0.5614,
+      "info": 0.2499
+    },
+    {
+      "mode": "external",
+      "theta": 2.3562,
+      "disturbance": 0.3049,
+      "info": 0.4333
+    },
+    {
+      "mode": "internal",
+      "theta": 2.3562,
+      "disturbance": 0.6511,
+      "info": 0.42
+    },
+    {
+      "mode": "external",
+      "theta": 3.1416,
+      "disturbance": 0.4987,
+      "info": 0.4985
+    },
+    {
+      "mode": "internal",
+      "theta": 3.1416,
+      "disturbance": 0.7512,
+      "info": 0.4929
+    }
+  ]
+}
