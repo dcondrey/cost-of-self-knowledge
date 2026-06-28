@@ -95,6 +95,22 @@ def main():
         color="C3",
         label="self-measurement penalty $\\Delta(K)$",
     )
+    import json as _json
+    import os as _os
+
+    if _os.path.exists("results/quantum-frontier-ibm.json"):
+        hw = _json.load(open("results/quantum-frontier-ibm.json"))
+        hk = [r["K"] for r in hw["rows"]]
+        hd = [r["D_measured"] for r in hw["rows"]]
+        ax.plot(
+            hk,
+            hd,
+            "D",
+            ms=7,
+            color="black",
+            label=f"real QPU ({hw['backend']})",
+            zorder=5,
+        )
     ax.plot(Kw, Dw, "o", ms=3, color="C0", alpha=0.5)
     ax.plot(Kp, Dp, "s", ms=3, color="C3", alpha=0.5)
     ax.set_xlabel("information extracted $K$ (Z-distinguishing power)")

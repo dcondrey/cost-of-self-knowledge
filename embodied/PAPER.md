@@ -17,8 +17,9 @@ effect growing under thermal stress. In the **informational** channel, a process
 is never zero, and never converges to a fixed point. In the **quantum** channel, we prove that a contained
 observer—restricted to projective measurements, because a POVM requires an ancilla it lacks (Naimark)—faces a
 strictly larger information–disturbance cost than the optimal measurement, $D=K^2/2$ versus
-$(1-\sqrt{1-K^2})/2$, a penalty up to $\Delta=0.125$ at matched information; this is the operational,
-dilation-free form of Breuer's contained-observer limit. We also measure
+$(1-\sqrt{1-K^2})/2$, a penalty up to $\Delta=0.125$ at matched information, and confirm the frontier on a
+real 156-qubit QPU; this is the operational, dilation-free form of Breuer's contained-observer limit. We
+also measure
 that self-knowledge is *costly* and
 modality-dependent across seven substrates, with a critical work scale below which reading one's own state
 is not worth its price. We argue the consequences bear directly on machine introspection — where current
@@ -119,11 +120,15 @@ observer not because the protected subspace is larger, but because the contained
 dilation (the ancilla) the POVM requires. It is the operational, dilation-free form of Breuer's static
 contained-observer theorem — a quantitative penalty where Breuer gives only impossibility.
 
+**Hardware confirmation.** Across five tilt angles on `ibm_kingston` (156-qubit Heron, 8192 shots), the
+measured disturbance tracks `K^2/2` (e.g. 0.289 vs. 0.292 at `K=0.77`; 0.472 vs. 0.480 at `K=0.98`) and
+sits strictly above the optimal POVM bound at every point, with a peak measured penalty of `+0.111`
+(theory peak 0.125). The penalty is real on a physical quantum computer.
+
 **A note on regime.** The penalty lives in the *partial-information* regime; at full readout a contained
-observer can projectively measure the target directly and pays no excess. (An initial hardware run that
-forced an indirect full-readout strategy measured a suboptimal $0.243$ and is superseded by the result
-above.) The matching hardware experiment is the projective frontier `D(K) = K^2/2` across tilt angles; we
-report it separately.
+observer can projectively measure the target directly and pays no excess. (An initial full-readout
+hardware run that forced an indirect strategy measured a suboptimal 0.243 and is superseded by the
+proven frontier above.)
 
 ### 3.4 The never-off corollary
 A continuously-operating system can never sample its own resting state, because operating is the
@@ -165,8 +170,9 @@ demonstration, not surprising physics (quantum measurement back-action is textbo
 self-measurement framing and the contained-observer penalty). (3) The informational floor is structural, not
 a thermodynamic bound. (4) Thermal hysteresis is shown on one bare-metal CPU plus three GPUs; absolute
 magnitudes vary with cooling — the qualitative irreducibility replicates, the numbers are not a universal
-constant. (5) The quantum penalty is now *proven* in closed form (projective vs.\ POVM, via Naimark) rather than
-argued; what remains is a hardware confirmation of the projective frontier `D(K)=K^2/2`, in progress. (6) Apple-Silicon CPU temperature and virtualized thermal
+constant. (5) The quantum penalty is *proven* in closed form (projective vs.\ POVM, via Naimark) and confirmed on a
+real QPU (the measured frontier tracks `K^2/2` strictly above the optimal bound); the agreement is within
+device noise. (6) Apple-Silicon CPU temperature and virtualized thermal
 are unmeasured (themselves points on the availability axis). (7) The introspection implication is an argument
 from analogy between substrate-level self-measurement and representational self-report; we make the analogy
 explicit and do not overstate it.

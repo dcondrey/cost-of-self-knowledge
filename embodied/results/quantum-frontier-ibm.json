@@ -1,0 +1,46 @@
+{
+  "backend": "ibm_kingston",
+  "shots": 8192,
+  "rows": [
+    {
+      "beta": 0.2,
+      "K": 0.9801,
+      "D_measured": 0.4722,
+      "D_projective_theory": 0.4803,
+      "D_optimal_povm": 0.4007,
+      "penalty_vs_optimal": 0.0715
+    },
+    {
+      "beta": 0.45,
+      "K": 0.9004,
+      "D_measured": 0.3865,
+      "D_projective_theory": 0.4054,
+      "D_optimal_povm": 0.2825,
+      "penalty_vs_optimal": 0.104
+    },
+    {
+      "beta": 0.7,
+      "K": 0.7648,
+      "D_measured": 0.2892,
+      "D_projective_theory": 0.2925,
+      "D_optimal_povm": 0.1779,
+      "penalty_vs_optimal": 0.1113
+    },
+    {
+      "beta": 1.0,
+      "K": 0.5403,
+      "D_measured": 0.1542,
+      "D_projective_theory": 0.146,
+      "D_optimal_povm": 0.0793,
+      "penalty_vs_optimal": 0.0749
+    },
+    {
+      "beta": 1.3,
+      "K": 0.2675,
+      "D_measured": 0.057,
+      "D_projective_theory": 0.0358,
+      "D_optimal_povm": 0.0182,
+      "penalty_vs_optimal": 0.0388
+    }
+  ]
+}
