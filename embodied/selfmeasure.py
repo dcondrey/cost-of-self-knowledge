@@ -27,9 +27,9 @@ import time
 logging.basicConfig(level=logging.INFO, format="%(message)s", stream=sys.stdout)
 log = logging.getLogger("selfmeasure")
 
-HOLD_S = 25.0          # thermal settling per intensity level
-SETTLE_READS = 5       # temp reads averaged at the end of each hold
-LEVELS = [0, 1, 2, 3, 4]   # intensity levels (cores busy, or write-rate units)
+HOLD_S = float(os.environ.get("SELFMEASURE_HOLD", "30"))      # thermal settling per level (robust default)
+SETTLE_READS = int(os.environ.get("SELFMEASURE_SETTLE", "8"))  # temp reads averaged at end of each hold
+LEVELS = [0, 1, 2, 3, 4]   # intensity levels (cores busy / write-rate / GPU streams)
 MAX_WRITE_GB = 20.0    # hard wear cap for the macOS SSD path
 _written_mb = [0.0]    # running wear tracker
 
@@ -63,6 +63,9 @@ def _mac_ssd_temp():
 
 
 def detect_source():
+    pref = os.environ.get("SELFMEASURE_SOURCE")               # gpu|cpu|ssd override
+    if pref != "cpu" and pref != "ssd" and _gpu_temp() is not None:
+        return "gpu", _gpu_temp
     if platform.system() == "Linux" and _linux_temp() is not None:
         return "cpu", _linux_temp
     if platform.system() == "Darwin" and _mac_ssd_temp() is not None:
@@ -150,6 +153,33 @@ def perturb_selfread(level, dur):
     return 0.0
 
 
+def _gpu_temp():
+    try:
+        out = subprocess.run(["nvidia-smi", "--query-gpu=temperature.gpu", "--format=csv,noheader,nounits"],
+                             capture_output=True, text=True, timeout=10).stdout
+    except (OSError, subprocess.SubprocessError):
+        return None
+    vals = [float(x) for x in out.split() if x.strip().replace(".", "", 1).isdigit()]
+    return max(vals) if vals else None
+
+
+def perturb_gpu(level, dur, n=4096):
+    """Perturbation = GPU compute (level concurrent large matmuls per step) for dur seconds, heating
+    the GPU whose temperature we read. Requires torch+CUDA."""
+    if level <= 0:
+        time.sleep(dur)
+        return 0.0
+    import torch
+    a = torch.randn(n, n, device="cuda")
+    b = torch.randn(n, n, device="cuda")
+    stop = time.time() + dur
+    while time.time() < stop:
+        for _ in range(level):
+            a = (a @ b) * 1e-4 + b
+        torch.cuda.synchronize()
+    return 0.0
+
+
 def read_temp_avg(read_fn):
     vals = []
     for _ in range(SETTLE_READS):
@@ -161,14 +191,26 @@ def read_temp_avg(read_fn):
 
 
 def ramp(perturb, read_fn, levels, label):
-    temps, mb = {}, 0.0
+    import threading
+    temps = {}
     for lv in levels:
-        m = perturb(lv, HOLD_S)
-        mb += m or 0.0
-        t = read_temp_avg(read_fn)
-        temps[lv] = t
-        log.info(f"  [{label}] intensity={lv}  temp={t:.2f}")
-    return temps, mb
+        th = threading.Thread(target=perturb, args=(lv, HOLD_S))
+        th.start()
+        time.sleep(max(0.0, HOLD_S - 6.0))                # let the level heat in
+        vals = []
+        for _ in range(SETTLE_READS):
+            if not th.is_alive():
+                break
+            t = read_fn()
+            if t is not None:
+                vals.append(t)
+            time.sleep(0.5)
+        th.join()
+        drift = (vals[-1] - vals[0]) if len(vals) > 1 else 0.0
+        temps[lv] = statistics.mean(vals) if vals else (read_fn() or float("nan"))
+        log.info(f"  [{label}] intensity={lv}  temp={temps[lv]:.2f}  "
+                 f"(n={len(vals)} reads under load, drift {drift:+.1f})")
+    return temps
 
 
 def main():
@@ -183,21 +225,23 @@ def main():
                  f"SELFMEASURE_ALLOW_WEAR=1 python3 selfmeasure.py. Better: run on a Linux box "
                  f"(CPU compute + /sys thermal, zero wear).")
         return 2
-    if src == "cpu":
+    if src == "gpu":
+        mode, perturb = "gpu_compute", perturb_gpu
+    elif src == "cpu":
         mode = os.environ.get("SELFMEASURE_MODE", "selfread")     # selfread = airtight; compute = control
         perturb = perturb_selfread if mode == "selfread" else perturb_compute
     else:
         mode, perturb = "write", perturb_write
-    log.info(f"source={src}  mode={mode}  perturb intensity = "
-             f"{'parallel self-telemetry readers' if mode=='selfread' else 'busy cores' if mode=='compute' else 'SSD write rate'}  "
-             f"hold={HOLD_S}s  levels={LEVELS}")
+    _intensity = {"gpu_compute": "concurrent GPU matmuls", "selfread": "parallel self-telemetry readers",
+                  "compute": "busy cores", "write": "SSD write rate"}[mode]
+    log.info(f"source={src}  mode={mode}  perturb intensity = {_intensity}  hold={HOLD_S}s  levels={LEVELS}")
     log.info(f"cooling to baseline...")
     perturb(0, HOLD_S)
     base = read_temp_avg(read_fn)
     log.info(f"baseline idle temp = {base:.2f}")
 
-    up, mb_up = ramp(perturb, read_fn, LEVELS, "up")
-    down, mb_down = ramp(perturb, read_fn, list(reversed(LEVELS)), "down")
+    up = ramp(perturb, read_fn, LEVELS, "up")
+    down = ramp(perturb, read_fn, list(reversed(LEVELS)), "down")
 
     inner = [lv for lv in LEVELS if up.get(lv) is not None and down.get(lv) is not None]
     hyst = statistics.mean([down[lv] - up[lv] for lv in inner]) if inner else float("nan")
@@ -221,7 +265,7 @@ def main():
     log.info(f"HYSTERESIS (down - up)   : {hyst:+.2f}   (nonzero => history-dependent => IRREDUCIBLE)")
     log.info(f"T0 extrapolated up/down  : {t0_up:.2f} / {t0_down:.2f}   (gap {abs(t0_up-t0_down):.2f})")
     if src == "ssd":
-        log.info(f"wear cost of this run    : ~{(mb_up+mb_down)/1024:.2f} GB written")
+        log.info(f"wear cost of this run    : ~{_written_mb[0] / 1024:.2f} GB written")
     irreducible = (not (hyst != hyst)) and abs(hyst) > 0.3 and abs(t0_up - t0_down) > 0.3
     if irreducible:
         log.info("=> IRREDUCIBLE: self-measurement leaves a history-dependent trace; the unperturbed "
