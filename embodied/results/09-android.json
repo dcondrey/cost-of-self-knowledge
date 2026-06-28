@@ -1,0 +1,20 @@
+{
+  "host": "android-termux",
+  "system": "Linux (Android)",
+  "cpu": "ARM 8-core",
+  "env": "phone",
+  "have_numpy": false,
+  "note": "Transcribed from Termux compact output. Work unit is a PURE-PYTHON loop (no numpy on device), levels = iteration counts [50k,100k,200k,400k] -- NOT comparable to the matmul work unit on numpy machines, so look_frac / critical-work-scale are not cross-comparable here. Raw LOOK costs ARE comparable. proc_inproc unavailable = Android sandboxes /proc/stat for non-root apps (a self-sensing-availability datapoint, like iOS).",
+  "work_levels": [50000, 100000, 200000, 400000],
+  "work_costs_s": {
+    "50000": {"mean": 0.01158333, "std": 0.0},
+    "100000": {"mean": 0.02328889, "std": 0.0},
+    "200000": {"mean": 0.04642778, "std": 0.0},
+    "400000": {"mean": 0.09382778, "std": 0.0}
+  },
+  "look_costs_s": {
+    "shallow_inproc": {"available": true, "mean": 0.00000278, "std": 0.0},
+    "proc_inproc": {"available": false, "reason": "Android /proc sandbox"},
+    "deep_subprocess": {"available": true, "mean": 0.01877778, "std": 0.0}
+  }
+}
