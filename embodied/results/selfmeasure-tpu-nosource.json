@@ -1,0 +1,8 @@
+{
+  "host": "colab-tpu",
+  "accelerator": "TPU v5e-1",
+  "system": "Linux",
+  "thermal_source": "none",
+  "irreducible": null,
+  "finding": "No readable thermal source on the TPU runtime: nvidia-smi absent, /sys/class/thermal unusable. Code executing on the TPU cannot sense the TPU's temperature at all -- forced thermal self-blindness imposed by the platform. Not a hysteresis datapoint; a point on the self-sensing-AVAILABILITY axis (rich CPU -> costly GPU -> sandboxed iOS -> absent TPU)."
+}
