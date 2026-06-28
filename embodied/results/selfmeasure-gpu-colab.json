@@ -1,0 +1,19 @@
+{
+  "host": "colab",
+  "system": "Linux",
+  "cpu": "x86_64",
+  "gpu": "colab (T4-class)",
+  "source": "gpu",
+  "mode": "gpu_compute",
+  "note": "reconstructed from pasted Colab output (paste.rs unreachable from the committing host)",
+  "hold_s": 45.0,
+  "levels": [0, 1, 2, 3, 4],
+  "baseline": 36.0,
+  "up": {"0": 36.0, "1": 59.4, "2": 73.5, "3": 80.5, "4": 76.0},
+  "down": {"4": 78.0, "3": 76.4, "2": 77.0, "1": 77.0, "0": 69.0},
+  "delta_min": 23.4,
+  "hysteresis": 10.4,
+  "t0_up": 44.86,
+  "t0_down": 72.0,
+  "irreducible": true
+}
