@@ -86,7 +86,11 @@ def run_ibm(circuits):
     from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager
 
     token = open(os.path.expanduser("~/.ibm_quantum_token")).read().strip()
-    service = QiskitRuntimeService(channel="ibm_quantum_platform", token=token)
+    inst_path = os.path.expanduser("~/.ibm_quantum_instance")
+    instance = open(inst_path).read().strip() if os.path.exists(inst_path) else None
+    service = QiskitRuntimeService(
+        channel="ibm_quantum_platform", token=token, instance=instance
+    )
     backend = service.least_busy(operational=True, simulator=False)
     log.info(f"backend = {backend.name}")
     pm = generate_preset_pass_manager(backend=backend, optimization_level=1)

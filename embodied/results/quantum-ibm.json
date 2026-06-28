@@ -1,0 +1,9 @@
+{
+  "backend": "ibm_kingston",
+  "shots": 8192,
+  "external_D": 0.4908,
+  "internal_D": 0.7343,
+  "external_info": 0.4872,
+  "internal_info": 0.4606,
+  "delta": 0.2434
+}
