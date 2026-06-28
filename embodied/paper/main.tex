@@ -29,10 +29,11 @@ ramping self-measurement intensity up then down on a consumer CPU and three data
 bounded-below perturbation floor ($+6.6$ to $+23.4\,\degree$C), hysteresis ($+3.1$ to $+10.4\,\degree$C), and
 an unstable zero-intensity extrapolation. In the \textbf{informational} channel, a process can faithfully
 checksum $99.997\%$ of itself but never the checksum apparatus; the un-capturable core equals the apparatus
-footprint and never converges to a fixed point. In the \textbf{quantum} channel, on a real 156-qubit
-superconducting QPU, a contained observer that must read itself with no fresh ancilla pays a measured
-information--disturbance penalty $\Delta = 0.243$ (vs.\ $0.25$ noiseless) over an external observer extracting
-the same information. We also measure that self-knowledge is \emph{costly} and modality-dependent across eight
+footprint and never converges to a fixed point. In the \textbf{quantum} channel we prove that a contained
+observer---restricted to projective measurements, because a POVM requires an ancilla it lacks (Naimark)---faces
+a strictly larger information--disturbance cost than the optimal measurement, $D=K^2/2$ versus
+$(1-\sqrt{1-K^2})/2$, a penalty up to $\Delta=0.125$, and confirm the frontier on a real 156-qubit QPU. We also
+measure that self-knowledge is \emph{costly} and modality-dependent across eight
 substrates, with a critical work scale below which reading one's own state is not worth its price. We argue
 the consequences bear on machine introspection---where self-report is measured to be unreliable---recasting
 that unreliability as in part a measurement back-action rather than only confabulation.
@@ -122,26 +123,39 @@ state being measured, so a zero-footprint faithful self-snapshot is impossible. 
 thermodynamic; cf.\ \citealp{landauer1961}.)
 
 \subsection{Quantum channel}
-\textbf{Method.} A two-qubit ``self'' $\{q_0,q_1\}$ is prepared in $|{+}\rangle|{+}\rangle$. We read $q_0$ two
-ways at \emph{matched} information. An \textbf{external} observer brings a fresh $|0\rangle$ ancilla, couples
-it to $q_0$, and measures it. A \textbf{contained} observer has no fresh ancilla---the self is fully
-occupied---so to obtain a usable pointer it must \emph{erase} a self-qubit ($q_1$), then read $q_0$ through it.
-Disturbance is read out by echo; information is the monitor's which-path statistics, matched across cases.
+\textbf{Claim and proof.} To extract classical information an observer must measure; the optimal
+minimal-disturbance measurement for partial information is a non-projective POVM, and by \emph{Naimark's
+theorem every POVM requires an ancilla}. A contained observer has no fresh ancilla, so it is restricted to
+\textbf{projective} measurements of its own qubits. For reading $Z$-information $K$ from a $|{+}\rangle$
+qubit (disturbance $D=1-F$ to the original state) we show in closed form
+\begin{equation}
+D_{\text{external (POVM/weak)}}(K) = \tfrac{1}{2}\!\left(1-\sqrt{1-K^2}\right), \qquad
+D_{\text{contained (projective)}}(K) = \tfrac{K^2}{2},
+\end{equation}
+both verified numerically to machine precision. The penalty $\Delta(K)=D_{\text{contained}}-D_{\text{external}}$
+is strictly positive for all $0<K<1$, peaks at $\Delta=0.125$ at $K=0.864$, and vanishes only at $K=0$ and
+$K=1$ (Fig.~\ref{fig:qpenalty}). This resolves the reduction objection: the standard bound is unreachable not
+because the protected subspace is larger, but because the contained observer cannot realize the dilation
+(the ancilla) the POVM requires---the operational, dilation-free form of Breuer's static theorem.
 
-\textbf{Result (real hardware).} On \texttt{ibm\_kingston} (156-qubit Heron, 8192 shots), at matched full
-information the external observer disturbs the self by $D=0.491$ and the contained observer by $D=0.734$, a
-penalty $\Delta = 0.243$---within $3\%$ of the noiseless $0.25$. The penalty is the cost of having no fresh
-ancilla: standard information--disturbance bounds \citep{fuchs1996,banaszek2001,maccone2006} assume free
-dilation (an appendable $|0\rangle$), which a contained observer lacks. To our knowledge this is the first
-hardware measurement of a contained-observer information--disturbance penalty and the operational form of
-Breuer's contained-observer theorem. We argue, but do not prove, that $\Delta$ is not recovered by applying a
-standard external bound to the joint $\{q_0,q_1\}$ subspace, since those bounds assume the dilation
-containment denies.
+\textbf{Hardware confirmation.} Across five tilt angles on \texttt{ibm\_kingston} (156-qubit Heron, 8192
+shots) the measured disturbance tracks $K^2/2$ (e.g.\ $0.289$ vs.\ $0.292$ at $K=0.77$) and sits strictly
+above the optimal POVM bound at every point, with a peak measured penalty of $+0.111$ (theory peak $0.125$).
+The penalty is real on a physical quantum computer. (An initial full-readout run that forced an indirect
+strategy measured a suboptimal $0.243$ and is superseded by the proven frontier above.)
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.72\textwidth]{fig4_quantum_penalty.png}
+\caption{Contained-observer penalty: the projective frontier $K^2/2$ (no ancilla) lies strictly above the
+optimal POVM bound $(1-\sqrt{1-K^2})/2$; black markers are real-QPU measurements.}
+\label{fig:qpenalty}
+\end{figure}
 
 \subsection{The never-off corollary}
 A continuously-operating system can never sample its own resting state, because operating is the perturbation
 and the substrate retains it---thermal mass in the physical channel, the stored result in the informational
-channel, and the spent apparatus qubit in the quantum channel.
+channel.
 
 \section{The cost of self-knowledge (companion result)}
 Measuring cost-per-self-observation at three modalities against a swept work-unit size across eight substrates:
@@ -183,9 +197,9 @@ We lead with these. (1) We \emph{extend and measure} Breuer; we do not re-derive
 (2) The thermal mechanism is ordinary thermodynamics, the informational floor ordinary self-reference, and
 quantum back-action textbook; the contribution is the measurement, the dynamic framing, and the three-channel
 demonstration. (3) The informational floor is structural, not thermodynamic. (4) Thermal hysteresis is shown
-on one bare-metal CPU plus three GPUs; absolute magnitudes vary with cooling. (5) The quantum penalty $\Delta$
-matches simulation, but our claim that it is not reducible to a standard external bound on the enlarged
-subspace is an argument (no-dilation), not a proven theorem. (6) Apple-Silicon CPU temperature and virtualized
+on one bare-metal CPU plus three GPUs; absolute magnitudes vary with cooling. (5) The quantum penalty is
+proven in closed form (projective vs.\ POVM, via Naimark) and confirmed on a real QPU within device noise.
+(6) Apple-Silicon CPU temperature and virtualized
 thermal are unmeasured. (7) The introspection implication is an explicit analogy between substrate-level
 self-measurement and representational self-report.
 
