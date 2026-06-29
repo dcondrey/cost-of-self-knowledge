@@ -66,28 +66,25 @@ the substrate retains the perturbation, and neither a reading nor an extrapolati
 unperturbed condition (Fig.~\ref{fig:hyst}).
 
 \section{Related work}
-\textbf{Self-measurement limits.} \citet{breuer1995} proves a properly-contained observer cannot
-distinguish all states of its system; \citet{yanofsky2003} frames self-reference limits via Lawvere fixed
-points. Both are static and non-empirical. We extend them to dynamic back-action with measurement.
+\textbf{Self-measurement limits.} \citet{breuer1995} proves a contained observer cannot distinguish all of
+its system's states; \citet{yanofsky2003} frames this via Lawvere fixed points. Both are static and
+non-empirical; we extend them to measured dynamic back-action.
 
-\textbf{Distributed snapshots and checkpointing do not apply.} \citet{chandy1985} record a causally
-consistent cut, not an instantaneous true state, and assume message channels; CRIU and \texttt{ptrace}
-dump a process by freezing it from an external agent. Neither is a still-running process snapshotting its
-own complete instantaneous state from within---the case we measure.
+\textbf{Snapshots do not apply.} \citet{chandy1985} record a causally consistent cut, not an instant, via
+message markers; CRIU and \texttt{ptrace} freeze a process externally. Neither is a running process
+snapshotting its own state from within---our case.
 
-\textbf{Machine introspection.} \citet{binder2025} treat introspection as behavioral self-prediction;
-\citet{premakumar2024} as free regularization. \citet{anthropic2025} measures introspective reports as
-unreliable and sometimes confabulated. None frames the limit as measurement back-action.
+\textbf{Machine introspection.} \citet{binder2025} treat introspection as behavioral self-prediction,
+\citet{premakumar2024} as free regularization, and \citet{anthropic2025} measure it as unreliable and
+sometimes confabulated---but none as measurement back-action.
 
-\textbf{Quantum information--disturbance.} \citet{fuchs1996}, \citet{banaszek2001}, and \citet{maccone2006}
-establish quantitative tradeoffs, always for an external apparatus; none places the apparatus inside the
-protected system. The internal-observer literature (\citealp{breuer1995,aerts2005}) is static and
-unquantified. Our contained-observer penalty bridges them.
+\textbf{Quantum information--disturbance.} \citet{fuchs1996,banaszek2001,maccone2006} bound the tradeoff,
+but always for an external apparatus; the internal-observer literature (\citealp{breuer1995,aerts2005}) is
+static and unquantified. Our contained-observer penalty bridges them.
 
-\textbf{Costly observation and embodiment.} Active RL \citep{krueger2020} derives optimal non-observation
-from cost, but for external signals without state perturbation. \citet{man2019} argue feeling requires
-real vulnerability, on simulated bodies; we provide a real substrate with measured costs and a measured
-irreducibility.
+\textbf{Costly observation, embodiment.} Active RL \citep{krueger2020} derives optimal non-observation from
+cost, but for external signals without perturbation. \citet{man2019} argue feeling needs real
+vulnerability, on simulated bodies; we provide a real one.
 
 \section{The self-measurement back-action (extending Breuer)}
 Self-observation perturbs the observed in three channels, with one shared structure: a bounded floor---the
@@ -96,6 +93,7 @@ because the apparatus is part of the system it measures.
 
 \begin{strip}
 \centering
+\small\setlength{\tabcolsep}{5pt}
 \begin{tabular}{llcccc}
 \toprule
 substrate & sensor & baseline (C) & floor (C) & hysteresis (C) & extrapolation gap (C) \\
@@ -134,18 +132,18 @@ thermodynamic (cf.\ \citealp{landauer1961}).
 
 \subsection{Quantum channel}
 \textbf{Claim and proof.} The optimal minimal-disturbance measurement for partial information is a
-non-projective POVM, and by Naimark's theorem every POVM requires an ancilla. A contained observer has no
-fresh ancilla, so it is restricted to projective measurements of its own qubits. For reading
-$Z$-information $K$ from a $|{+}\rangle$ qubit (disturbance $D=1-F$),
+non-projective POVM, which by Naimark's theorem requires an ancilla. A contained observer has none, so it
+is restricted to projective measurements. For reading $Z$-information $K$ from a $|{+}\rangle$ qubit
+(disturbance $D=1-F$),
 \begin{align}
 D_{\text{ext (POVM)}}(K) &= \tfrac{1}{2}\!\left(1-\sqrt{1-K^2}\right),\\
 D_{\text{contained}}(K)  &= \tfrac{K^2}{2},
 \end{align}
-both verified numerically to machine precision. The penalty $\Delta(K)=D_{\text{contained}}-D_{\text{ext}}$
-is strictly positive for $0<K<1$, peaks at $\Delta=0.125$ at $K=0.864$, and vanishes only at $K=0$ and
-$K=1$ (Fig.~\ref{fig:qpenalty}). This resolves the reduction objection: the standard bound is unreachable
-not because the protected subspace is larger, but because the contained observer cannot realize the
-dilation the POVM requires. It is the operational, dilation-free form of Breuer's static theorem.
+both verified to machine precision. The penalty $\Delta(K)=D_{\text{contained}}-D_{\text{ext}}$ is strictly
+positive for $0<K<1$, peaks at $\Delta=0.125$ at $K=0.864$, and vanishes only at $K=0,1$
+(Fig.~\ref{fig:qpenalty}). The standard bound is unreachable not because the protected subspace is larger,
+but because the contained observer cannot realize the dilation the POVM requires: the operational,
+dilation-free form of Breuer's static theorem.
 
 \begin{figure}[t]
 \centering
