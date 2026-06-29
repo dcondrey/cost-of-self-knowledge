@@ -6,6 +6,7 @@
 \usepackage[numbers]{natbib}
 \usepackage[hidelinks]{hyperref}
 \usepackage{stfloats}
+\usepackage{float}
 \graphicspath{{../}}
 
 \title{\textbf{\Large Machines Cannot Read Their Own Resting State}\\[3pt]
@@ -14,8 +15,9 @@
 \date{}
 
 \begin{document}
+\twocolumn[
+\begin{@twocolumnfalse}
 \maketitle
-
 \begin{abstract}
 \noindent Breuer (1995) proved that an observer contained in a system cannot accurately measure that
 system's state, a self-measurement impossibility that holds classically and quantum mechanically. That
@@ -37,6 +39,9 @@ eight substrates, with a critical work scale below which reading one's own state
 argue these consequences bear on machine introspection, where self-report is measured to be unreliable,
 recasting that unreliability as in part a measurement back-action rather than only confabulation.
 \end{abstract}
+\vspace{1em}
+\end{@twocolumnfalse}
+]
 
 \section{Introduction}
 Interpretability, machine introspection, and AI control assume a system's internal states can be elicited
@@ -49,16 +54,16 @@ that a computing system cannot read its own resting state: every self-measuremen
 the substrate retains the perturbation, and neither a reading nor an extrapolation recovers the
 unperturbed condition (Fig.~\ref{fig:hyst}).
 
-\begin{figure*}[t]
+\begin{figure}[H]
 \centering
-\includegraphics[width=0.92\textwidth]{fig5_hysteresis.png}
+\includegraphics[width=\columnwidth]{fig5_hysteresis.png}
 \caption{The central result. Self-measurement intensity is ramped up and then back down while the system
 reads its own temperature. Both substrates show a hysteresis loop: at the same intensity the cooling
 branch reads hotter than the heating branch, and at zero intensity the system reads far above its true
 idle. The reading depends on measurement \emph{history}, so the unperturbed state is unrecoverable from any
 single reading. The effect is larger on the hotter-running GPU.}
 \label{fig:hyst}
-\end{figure*}
+\end{figure}
 
 \section{Related work}
 \textbf{Self-measurement limits.} \citet{breuer1995} proves a properly-contained observer cannot
@@ -229,9 +234,10 @@ measured in three independent channels that extends a known self-measurement imp
 indistinguishability to measured dynamic back-action. A machine cannot cheaply, and cannot fully, read its
 own physical state; it cannot read its own resting state at all.
 
-\paragraph{Reproducibility.} Code and per-substrate results: \texttt{benchmark.py} (cost),
+\paragraph{Reproducibility.} All code, per-substrate results, and figure scripts are available at
+\url{https://github.com/dcondrey/cost-of-self-knowledge}: \texttt{benchmark.py} (cost),
 \texttt{selfmeasure.py} (thermal), \texttt{snapshot.py} (informational), \texttt{quantum\_theory.py} and
-\texttt{quantum\_frontier.py} (quantum), with all \texttt{results/*.json} and figure scripts.
+\texttt{quantum\_frontier.py} (quantum), with all \texttt{results/*.json}.
 
 \bibliographystyle{plainnat}
 \bibliography{refs}

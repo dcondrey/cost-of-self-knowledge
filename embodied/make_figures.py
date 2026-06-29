@@ -67,19 +67,13 @@ def hysteresis_panel(ax, path, title):
 
 
 def make_hysteresis():
-    fig, axs = plt.subplots(1, 2, figsize=(11, 4.2))
+    fig, axs = plt.subplots(1, 2, figsize=(7.0, 2.9))
     hysteresis_panel(
         axs[0],
         "results/selfmeasure-linux-selfread.json",
         "CPU, self-telemetry read (airtight)",
     )
     hysteresis_panel(axs[1], "results/selfmeasure-gpu-colab.json", "GPU (Tesla T4)")
-    fig.suptitle(
-        "A system cannot read its own resting state: self-measurement leaves a "
-        "history-dependent thermal trace",
-        fontsize=12.5,
-        y=1.02,
-    )
     fig.tight_layout()
     fig.savefig("fig5_hysteresis.png", bbox_inches="tight")
     plt.close(fig)
