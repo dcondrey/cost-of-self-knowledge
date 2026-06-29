@@ -9,6 +9,7 @@
 \usepackage{float}
 \usepackage{caption}
 \usepackage{cuted}
+\usepackage{needspace}
 \graphicspath{{../}}
 \raggedbottom
 \renewcommand{\topfraction}{0.95}
@@ -140,12 +141,14 @@ D_{\text{ext (POVM)}}(K) &= \tfrac{1}{2}\!\left(1-\sqrt{1-K^2}\right),\\
 D_{\text{contained}}(K)  &= \tfrac{K^2}{2},
 \end{align}
 both verified to machine precision. The penalty $\Delta(K)=D_{\text{contained}}-D_{\text{ext}}$ is strictly
-positive for $0<K<1$, peaks at $\Delta=0.125$ at $K=0.864$, and vanishes only at $K=0,1$
-(Fig.~\ref{fig:qpenalty}). The standard bound is unreachable not because the protected subspace is larger,
-but because the contained observer cannot realize the dilation the POVM requires: the operational,
-dilation-free form of Breuer's static theorem.
+positive for $0<K<1$, peaks at $\Delta=0.125$ at $K=0.864$, and vanishes only at $K=0,1$. The standard
+bound is unreachable not because the protected subspace is larger, but because the contained observer
+cannot realize the dilation the POVM requires: the operational, dilation-free form of Breuer's static
+theorem.
 
-\begin{figure}[t]
+\needspace{1.9in}
+Figure~\ref{fig:qpenalty} plots both frontiers with the real-QPU points overlaid.
+\begin{figure}[H]
 \centering
 \includegraphics[width=\columnwidth]{fig4_quantum_penalty.png}
 \caption{The projective frontier $K^2/2$ (contained, no ancilla) lies strictly above the optimal POVM
@@ -164,15 +167,12 @@ perturbation and the substrate retains it---thermal mass in the physical channel
 informational channel.
 
 \section{The cost of self-knowledge}
+\needspace{2.4in}
 Across eight substrates we measure self-observation cost at three modalities against a swept work-unit
-size. Shallow self-reads are nearly free everywhere ($0.3$--$6.7\,\mu$s); deep self-telemetry is
-dear and substrate-dependent ($1.4$--$18.8$\,ms), macOS subprocess telemetry about ten times costlier than
-Linux \texttt{/proc} (Fig.~\ref{fig:cross}). The denominator-free headline is the critical work scale
-($6.5$--$78$\,ms) below which deep self-knowledge is not worth its cost. A calibrated model places this
-machine's cheap introspection below the break-even and its rich self-telemetry far above it
-(Figs.~\ref{fig:be},~\ref{fig:sens})---a substrate-conditional rational self-blindness, not a universal one.
-
-\begin{figure}[t]
+size. Shallow self-reads are nearly free everywhere ($0.3$--$6.7\,\mu$s); deep self-telemetry is dear and
+substrate-dependent ($1.4$--$18.8$\,ms), macOS subprocess telemetry about ten times costlier than Linux
+\texttt{/proc} (Fig.~\ref{fig:cross}).
+\begin{figure}[H]
 \centering
 \includegraphics[width=\columnwidth]{fig3_cross_machine.png}
 \caption{Cost of deep self-knowledge vs.\ work scale across substrates; the look-cost is denominator-free
@@ -180,7 +180,11 @@ and the conclusion robust across the sweep.}
 \label{fig:cross}
 \end{figure}
 
-\begin{figure}[t]
+\needspace{2.4in}
+The denominator-free headline is the critical work scale ($6.5$--$78$\,ms) below which deep self-knowledge
+is not worth its cost. A calibrated model places this machine's cheap introspection below the break-even
+and its rich self-telemetry far above it (Fig.~\ref{fig:be}).
+\begin{figure}[H]
 \centering
 \includegraphics[width=\columnwidth]{fig1_breakeven.png}
 \caption{The break-even price of self-knowledge in a body model calibrated to the measurements; cheap
@@ -188,7 +192,10 @@ introspection sits below it, full telemetry far above.}
 \label{fig:be}
 \end{figure}
 
-\begin{figure}[t]
+\needspace{2.4in}
+The break-even is robust across the model's body parameters---substrate-conditional rational
+self-blindness, not a universal limit (Fig.~\ref{fig:sens}).
+\begin{figure}[H]
 \centering
 \includegraphics[width=\columnwidth]{fig2_sensitivity.png}
 \caption{The break-even is robust across the model's body parameters (RAM cap, wear budget).}
