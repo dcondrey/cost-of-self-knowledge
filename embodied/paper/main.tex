@@ -7,6 +7,8 @@
 \usepackage[hidelinks]{hyperref}
 \usepackage{stfloats}
 \usepackage{float}
+\usepackage{cuted}
+\usepackage{caption}
 \graphicspath{{../}}
 
 \title{\textbf{\Large Machines Cannot Read Their Own Resting State}\\[3pt]
@@ -20,24 +22,18 @@
 \maketitle
 \begin{abstract}
 \noindent Breuer (1995) proved that an observer contained in a system cannot accurately measure that
-system's state, a self-measurement impossibility that holds classically and quantum mechanically. That
-result is theoretical and static: it concerns which states a contained observer can distinguish. We make
-two contributions. First, we give what we believe are the first empirical measurements of a
-self-measurement limit on real computing hardware. Second, we extend the limit from static
+system's state, a static impossibility about which states it can distinguish. We give what we believe are
+the first empirical measurements of such a limit on real hardware, and extend it from static
 indistinguishability to dynamic back-action: the act of self-measurement changes the state being measured,
-irreducibly, with a floor set by the measurement apparatus's own footprint. We show this in three
-independent channels. In the thermal channel, a system reading its own temperature heats the substrate,
-which has thermal memory; ramping self-measurement intensity up and then down on a consumer CPU and three
-datacenter GPUs yields a bounded perturbation floor, hysteresis, and an unstable extrapolation to zero
-intensity, so no reading recovers the unperturbed state. In the informational channel, a process can
-faithfully checksum all of itself except the checksum apparatus, whose footprint is the irreducible
-un-capturable core. In the quantum channel, we prove that a contained observer, restricted to projective
-measurements because the optimal measurement requires an ancilla it lacks, faces a strictly larger
-information-disturbance cost than the optimal measurement, and we confirm the resulting penalty on a real
+with a floor set by the apparatus's own footprint. We show this in three channels. Thermal: a system
+reading its own temperature heats the substrate, which has memory, so ramping self-measurement up and down
+on a CPU and three GPUs leaves a hysteresis loop and no reading recovers the unperturbed state.
+Informational: a process can checksum all of itself except the checksum apparatus. Quantum: a contained
+observer, restricted to projective measurements because the optimal measurement needs an ancilla it lacks,
+pays a strictly larger information-disturbance cost, which we prove in closed form and confirm on a
 156-qubit quantum processor. We also measure that self-knowledge is costly and modality dependent across
-eight substrates, with a critical work scale below which reading one's own state is not worth its price. We
-argue these consequences bear on machine introspection, where self-report is measured to be unreliable,
-recasting that unreliability as in part a measurement back-action rather than only confabulation.
+eight substrates. These limits bear on machine introspection, recasting measured self-report unreliability
+as in part a measurement back-action rather than only confabulation.
 \end{abstract}
 \vspace{1em}
 \end{@twocolumnfalse}
@@ -54,16 +50,16 @@ that a computing system cannot read its own resting state: every self-measuremen
 the substrate retains the perturbation, and neither a reading nor an extrapolation recovers the
 unperturbed condition (Fig.~\ref{fig:hyst}).
 
-\begin{figure}[H]
+\begin{strip}
 \centering
-\includegraphics[width=\columnwidth]{fig5_hysteresis.png}
-\caption{The central result. Self-measurement intensity is ramped up and then back down while the system
-reads its own temperature. Both substrates show a hysteresis loop: at the same intensity the cooling
+\includegraphics[width=0.96\textwidth]{fig5_hysteresis.png}
+\captionof{figure}{The central result. Self-measurement intensity is ramped up and then back down while the
+system reads its own temperature. Both substrates show a hysteresis loop: at the same intensity the cooling
 branch reads hotter than the heating branch, and at zero intensity the system reads far above its true
 idle. The reading depends on measurement \emph{history}, so the unperturbed state is unrecoverable from any
 single reading. The effect is larger on the hotter-running GPU.}
 \label{fig:hyst}
-\end{figure}
+\end{strip}
 
 \section{Related work}
 \textbf{Self-measurement limits.} \citet{breuer1995} proves a properly-contained observer cannot
