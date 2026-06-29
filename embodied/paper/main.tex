@@ -10,6 +10,9 @@
 \usepackage{caption}
 \graphicspath{{../}}
 \raggedbottom
+\renewcommand{\topfraction}{0.95}
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\floatpagefraction}{0.85}
 
 \title{\textbf{\Large Machines Cannot Read Their Own Resting State}\\[3pt]
 \normalsize The cost and irreducible limit of self-knowledge on real computational substrates}
@@ -20,6 +23,10 @@
 \twocolumn[
 \begin{@twocolumnfalse}
 \maketitle
+\vspace{0.4em}
+\end{@twocolumnfalse}
+]
+
 \begin{abstract}
 \noindent Breuer (1995) proved that an observer contained in a system cannot accurately measure that
 system's state, a static impossibility about which states it can distinguish. We give what we believe are
@@ -35,22 +42,9 @@ pays a strictly larger information-disturbance cost, which we prove in closed fo
 eight substrates. These limits bear on machine introspection, recasting measured self-report unreliability
 as in part a measurement back-action rather than only confabulation.
 \end{abstract}
-\vspace{1em}
-\end{@twocolumnfalse}
-]
 
 \section{Introduction}
-Interpretability, machine introspection, and AI control assume a system's internal states can be elicited
-and reported. Beneath that assumption sits a physical question with a known but rarely-cited answer.
-\citet{breuer1995}, and in recursion-theoretic form \citet{yanofsky2003}, established that a contained
-observer cannot accurately measure its own system's state. That result is static and theoretical. We ask
-two empirical questions it leaves open: how much does self-measurement cost, and does the act of
-self-measurement change what it measures---and we measure both on real machines. Our central finding is
-that a computing system cannot read its own resting state: every self-measurement perturbs the substrate,
-the substrate retains the perturbation, and neither a reading nor an extrapolation recovers the
-unperturbed condition (Fig.~\ref{fig:hyst}).
-
-\begin{figure}[H]
+\begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{fig5_hysteresis.png}
 \caption{The central result. Self-measurement intensity is ramped up and then back down while the
@@ -60,6 +54,15 @@ idle. The reading depends on measurement \emph{history}, so the unperturbed stat
 single reading. The effect is larger on the hotter-running GPU.}
 \label{fig:hyst}
 \end{figure}
+Interpretability, machine introspection, and AI control assume a system's internal states can be elicited
+and reported. Beneath that assumption sits a physical question with a known but rarely-cited answer.
+\citet{breuer1995}, and in recursion-theoretic form \citet{yanofsky2003}, established that a contained
+observer cannot accurately measure its own system's state. That result is static and theoretical. We ask
+two empirical questions it leaves open: how much does self-measurement cost, and does the act of
+self-measurement change what it measures---and we measure both on real machines. Our central finding is
+that a computing system cannot read its own resting state: every self-measurement perturbs the substrate,
+the substrate retains the perturbation, and neither a reading nor an extrapolation recovers the
+unperturbed condition (Fig.~\ref{fig:hyst}).
 
 \section{Related work}
 \textbf{Self-measurement limits.} \citet{breuer1995} proves a properly-contained observer cannot
