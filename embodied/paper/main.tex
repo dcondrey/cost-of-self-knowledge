@@ -7,8 +7,6 @@
 \usepackage[hidelinks]{hyperref}
 \usepackage{stfloats}
 \usepackage{float}
-\usepackage{cuted}
-\usepackage{caption}
 \graphicspath{{../}}
 
 \title{\textbf{\Large Machines Cannot Read Their Own Resting State}\\[3pt]
@@ -50,16 +48,16 @@ that a computing system cannot read its own resting state: every self-measuremen
 the substrate retains the perturbation, and neither a reading nor an extrapolation recovers the
 unperturbed condition (Fig.~\ref{fig:hyst}).
 
-\begin{strip}
+\begin{figure}[H]
 \centering
-\includegraphics[width=0.96\textwidth]{fig5_hysteresis.png}
-\captionof{figure}{The central result. Self-measurement intensity is ramped up and then back down while the
+\includegraphics[width=\columnwidth]{fig5_hysteresis.png}
+\caption{The central result. Self-measurement intensity is ramped up and then back down while the
 system reads its own temperature. Both substrates show a hysteresis loop: at the same intensity the cooling
 branch reads hotter than the heating branch, and at zero intensity the system reads far above its true
 idle. The reading depends on measurement \emph{history}, so the unperturbed state is unrecoverable from any
 single reading. The effect is larger on the hotter-running GPU.}
 \label{fig:hyst}
-\end{strip}
+\end{figure}
 
 \section{Related work}
 \textbf{Self-measurement limits.} \citet{breuer1995} proves a properly-contained observer cannot
@@ -149,7 +147,7 @@ shots) the measured disturbance tracks $K^2/2$ (e.g.\ $0.289$ vs.\ $0.292$ at $K
 above the optimal bound at every point, peak measured penalty $+0.111$ (theory $0.125$). An initial
 full-readout run that forced an indirect strategy measured a suboptimal $0.243$ and is superseded.
 
-\begin{figure}[t]
+\begin{figure}[H]
 \centering
 \includegraphics[width=\columnwidth]{fig4_quantum_penalty.png}
 \caption{The projective frontier $K^2/2$ (contained, no ancilla) lies strictly above the optimal POVM
@@ -171,7 +169,7 @@ Linux \texttt{/proc} (Fig.~\ref{fig:cross}). The denominator-free headline is th
 machine's cheap introspection below the break-even and its rich self-telemetry far above it
 (Figs.~\ref{fig:be},~\ref{fig:sens})---a substrate-conditional rational self-blindness, not a universal one.
 
-\begin{figure}[t]
+\begin{figure}[H]
 \centering
 \includegraphics[width=\columnwidth]{fig3_cross_machine.png}
 \caption{Cost of deep self-knowledge vs.\ work scale across substrates; the look-cost is denominator-free
@@ -179,7 +177,7 @@ and the conclusion robust across the sweep.}
 \label{fig:cross}
 \end{figure}
 
-\begin{figure}[t]
+\begin{figure}[H]
 \centering
 \includegraphics[width=\columnwidth]{fig1_breakeven.png}
 \caption{The break-even price of self-knowledge in a body model calibrated to the measurements; cheap
@@ -187,7 +185,7 @@ introspection sits below it, full telemetry far above.}
 \label{fig:be}
 \end{figure}
 
-\begin{figure}[t]
+\begin{figure}[H]
 \centering
 \includegraphics[width=\columnwidth]{fig2_sensitivity.png}
 \caption{The break-even is robust across the model's body parameters (RAM cap, wear budget).}

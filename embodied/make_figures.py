@@ -67,7 +67,7 @@ def hysteresis_panel(ax, path, title):
 
 
 def make_hysteresis():
-    fig, axs = plt.subplots(2, 1, figsize=(11, 3.35))
+    fig, axs = plt.subplots(2, 1, figsize=(4.8, 5.0))
     hysteresis_panel(
         axs[0],
         "results/selfmeasure-linux-selfread.json",
