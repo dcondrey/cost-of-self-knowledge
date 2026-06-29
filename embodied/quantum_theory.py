@@ -79,7 +79,7 @@ def main():
         f"Delta={0.25 / 2 - (1 - np.sqrt(0.75)) / 2:.4f}"
     )
 
-    fig, ax = plt.subplots(figsize=(7, 4.5))
+    fig, ax = plt.subplots(figsize=(7, 3.9))
     ax.plot(
         Kgrid,
         Dext,

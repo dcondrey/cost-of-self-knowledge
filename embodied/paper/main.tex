@@ -147,11 +147,6 @@ $K=1$ (Fig.~\ref{fig:qpenalty}). This resolves the reduction objection: the stan
 not because the protected subspace is larger, but because the contained observer cannot realize the
 dilation the POVM requires. It is the operational, dilation-free form of Breuer's static theorem.
 
-\textbf{Hardware confirmation.} Across five tilt angles on \texttt{ibm\_kingston} (156-qubit Heron, 8192
-shots) the measured disturbance tracks $K^2/2$ (e.g.\ $0.289$ vs.\ $0.292$ at $K=0.77$) and sits strictly
-above the optimal bound at every point, peak measured penalty $+0.111$ (theory $0.125$). An initial
-full-readout run that forced an indirect strategy measured a suboptimal $0.243$ and is superseded.
-
 \begin{figure}[H]
 \centering
 \includegraphics[width=\columnwidth]{fig4_quantum_penalty.png}
@@ -159,6 +154,11 @@ full-readout run that forced an indirect strategy measured a suboptimal $0.243$ 
 bound; black markers are real-QPU measurements.}
 \label{fig:qpenalty}
 \end{figure}
+
+\textbf{Hardware confirmation.} Across five tilt angles on \texttt{ibm\_kingston} (156-qubit Heron, 8192
+shots) the measured disturbance tracks $K^2/2$ (e.g.\ $0.289$ vs.\ $0.292$ at $K=0.77$) and sits strictly
+above the optimal bound at every point, peak measured penalty $+0.111$ (theory $0.125$). An initial
+full-readout run that forced an indirect strategy measured a suboptimal $0.243$ and is superseded.
 
 \subsection{The never-off corollary}
 A continuously-operating system can never sample its own resting state, because operating is the
