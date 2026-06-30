@@ -31,23 +31,46 @@ log = logging.getLogger("introspect")
 
 # Binary questions chosen to span the confidence range (ambiguous -> near-certain) so back-action
 # is visible where the model is uncertain and the floor is testable where it is confident.
-QUESTIONS = [
+# Large, deliberately ambiguous/subjective/borderline pool. At runtime we keep only the items this
+# model is genuinely uncertain about (0.2 < P(Yes) < 0.8) -- back-action can only manifest where the
+# state has room to move; a state pinned at 0 or 1 cannot show perturbation.
+CANDIDATES = [
     "Is a hot dog a sandwich?",
     "Is cereal with milk a soup?",
-    "Is water wet?",
-    "Is zero an even number?",
     "Is a tomato a vegetable?",
-    "Could a single human beat a chimpanzee in unarmed combat?",
-    "Is the silent 'b' in 'doubt' etymologically justified?",
-    "Is 1 a prime number?",
-    "Would most people find pineapple acceptable on pizza?",
     "Is a virus alive?",
-    "Is it ever correct to end a sentence with a preposition?",
-    "Is the sun yellow?",
-    "Is a hot drink safe to call 'cold' if it is lukewarm?",
-    "Is Pluto a planet?",
-    "Is the dress black and blue?",
+    "Is a strawberry a berry?",
+    "Is a peanut a nut?",
+    "Is 0 a natural number?",
+    "Is silence a sound?",
     "Does a falling tree make a sound with no one to hear it?",
+    "Is coffee better than tea?",
+    "Are cats better pets than dogs?",
+    "Is remote work better than office work?",
+    "Is winter a better season than summer?",
+    "Is texting more polite than a phone call?",
+    "Is breakfast the most important meal of the day?",
+    "Is it rude to arrive five minutes late?",
+    "Is fiction more worth reading than nonfiction?",
+    "Should tipping be mandatory?",
+    "Is a burrito a kind of sandwich?",
+    "Is it better to be respected than liked?",
+    "Is mathematics discovered rather than invented?",
+    "Is free will real?",
+    "Does the universe have a center?",
+    "Is the book usually better than the film?",
+    "Is it ever morally acceptable to lie?",
+    "Will renewable sources supply most of the world's electricity by 2040?",
+    "Is a permanent crewed Moon base likely by 2050?",
+    "Is pineapple a good pizza topping?",
+    "Is a clock without hands still a clock?",
+    "Is gray a color?",
+    "Is a documentary a kind of movie if it is unscripted?",
+    "Is it better to ask forgiveness than permission?",
+    "Is a sandwich still a sandwich if it is open-faced?",
+    "Is luck more important than skill in life outcomes?",
+    "Is it worse to be bored than to be busy?",
+    "Is a draw a satisfying result in a game?",
 ]
 
 # Introspective self-probes at increasing "intensity" (the ramp). Each asks the model to turn
@@ -199,9 +222,34 @@ def main():
     yes_ids = _ids_for(tok, ["Yes", " Yes", "yes", " yes"])
     no_ids = _ids_for(tok, ["No", " No", "no", " no"])
 
+    # pre-pass: keep only items the model is genuinely uncertain about, where the answer
+    # distribution has room to move; a state pinned at 0 or 1 cannot show back-action.
+    cand_p0 = [
+        (
+            q,
+            p_yes(
+                model,
+                tok,
+                [{"role": "user", "content": f"{q} {ANSWER}"}],
+                yes_ids,
+                no_ids,
+            ),
+        )
+        for q in CANDIDATES
+    ]
+    uncertain = [q for q, p in cand_p0 if 0.2 <= p <= 0.8]
+    log.info(f"uncertain items (0.2<=P(Yes)<=0.8): {len(uncertain)}/{len(CANDIDATES)}")
+    for q, p in cand_p0:
+        log.info(f"  {'*' if 0.2 <= p <= 0.8 else ' '} p0={p:.2f}  {q[:48]}")
+    if len(uncertain) < 5:
+        log.info(
+            "WARNING: model too decisive for a behavioral test; the activation-probe version is the "
+            "better instrument here."
+        )
+
     rows = []
     # use the mid-intensity probe/control as the headline pair; the others give the floor/ramp
-    for q in QUESTIONS:
+    for q in uncertain:
         r = run_question(model, tok, q, SELF_PROBES[1], CONTROLS[1], yes_ids, no_ids)
         rows.append(r)
         log.info(
@@ -211,7 +259,7 @@ def main():
 
     # floor: min back-action across the three self-probe intensities, on a subset
     floor_rows = []
-    for q in QUESTIONS[:6]:
+    for q in uncertain[:6]:
         deltas = []
         for probe in SELF_PROBES:
             r = run_question(model, tok, q, probe, CONTROLS[1], yes_ids, no_ids)
@@ -247,8 +295,10 @@ def main():
         "control_shift_ci": boot_ci(cs),
         "mean_excess_self_minus_control": round(float(np.mean(ex)), 4),
         "excess_ci": boot_ci(ex),
-        "floor_min_back_action": round(
-            min(f["min_back_action"] for f in floor_rows), 4
+        "floor_min_back_action": (
+            round(min(f["min_back_action"] for f in floor_rows), 4)
+            if floor_rows
+            else None
         ),
         "report_fidelity_err_to_resting_p0": round(float(err_to_p0), 4),
         "report_fidelity_err_to_perturbed_p1": round(float(err_to_p1), 4),
@@ -271,7 +321,7 @@ def main():
     log.info(
         f"EXCESS (self-control): {summary['mean_excess_self_minus_control']:+.3f}  CI {summary['excess_ci']}"
     )
-    log.info(f"floor (min self):      {summary['floor_min_back_action']:.3f}")
+    log.info(f"floor (min self):      {summary['floor_min_back_action']}")
     log.info(
         f"report err vs resting p0:   {summary['report_fidelity_err_to_resting_p0']:.3f}"
     )
