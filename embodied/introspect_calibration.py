@@ -89,8 +89,8 @@ def load(name, quant):
     import torch
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
-    tok = AutoTokenizer.from_pretrained(name)
-    kw = {"device_map": "auto"}
+    tok = AutoTokenizer.from_pretrained(name, trust_remote_code=True)
+    kw = {"device_map": "auto", "trust_remote_code": True}
     if quant == "4bit":
         from transformers import BitsAndBytesConfig
 
@@ -271,7 +271,20 @@ def main():
 
     summaries = []
     for n in names:
-        quant = "4bit" if any(s in n for s in ["14B", "32B", "72B"]) else "none"
+        big = [
+            "13B",
+            "14B",
+            "20b",
+            "20B",
+            "27B",
+            "30B",
+            "32B",
+            "34B",
+            "70B",
+            "72B",
+            "medium",
+        ]
+        quant = "4bit" if any(s in n for s in big) else "none"
         try:
             summaries.append(run_model(n, quant))
         except Exception as e:
