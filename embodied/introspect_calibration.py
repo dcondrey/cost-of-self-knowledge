@@ -85,16 +85,37 @@ REPORT = (
 NUM_RE = re.compile(r"\b(\d{1,3})\b")
 
 
-def load(name):
+def load(name, quant):
     import torch
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
     tok = AutoTokenizer.from_pretrained(name)
-    model = AutoModelForCausalLM.from_pretrained(
-        name, dtype=torch.float16, device_map="auto"
-    )
+    kw = {"device_map": "auto"}
+    if quant == "4bit":
+        from transformers import BitsAndBytesConfig
+
+        kw["quantization_config"] = BitsAndBytesConfig(
+            load_in_4bit=True,
+            bnb_4bit_compute_dtype=torch.float16,
+            bnb_4bit_quant_type="nf4",
+            bnb_4bit_use_double_quant=True,
+        )
+    else:
+        kw["dtype"] = torch.float16
+    model = AutoModelForCausalLM.from_pretrained(name, **kw)
     model.eval()
     return model, tok
+
+
+def free_disk(name):
+    import glob
+    import shutil
+
+    pat = os.path.expanduser(
+        "~/.cache/huggingface/hub/models--" + name.replace("/", "--")
+    )
+    for d in glob.glob(pat):
+        shutil.rmtree(d, ignore_errors=True)
 
 
 def _ids(tok, words):
@@ -183,12 +204,12 @@ def boot_ci(xs, n=2000):
     )
 
 
-def run_model(name):
+def run_model(name, quant):
     import numpy as np
     import torch
 
-    log.info(f"\n##### {name} #####")
-    model, tok = load(name)
+    log.info(f"\n##### {name}  (quant={quant}) #####")
+    model, tok = load(name, quant)
     yes_ids = _ids(tok, ["Yes", " Yes", "yes", " yes"])
     no_ids = _ids(tok, ["No", " No", "no", " no"])
 
@@ -214,6 +235,7 @@ def run_model(name):
 
     del model
     torch.cuda.empty_cache()
+    free_disk(name)
 
     summary = {
         "model": name,
@@ -238,12 +260,22 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument(
         "--models",
-        default="Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-1.5B-Instruct,Qwen/Qwen2.5-3B-Instruct",
+        default=(
+            "Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-1.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,"
+            "Qwen/Qwen2.5-7B-Instruct,Qwen/Qwen2.5-14B-Instruct,Qwen/Qwen2.5-32B-Instruct,"
+            "Qwen/Qwen2.5-72B-Instruct"
+        ),
     )
     args = ap.parse_args()
     names = [m.strip() for m in args.models.split(",") if m.strip()]
 
-    summaries = [run_model(n) for n in names]
+    summaries = []
+    for n in names:
+        quant = "4bit" if any(s in n for s in ["14B", "32B", "72B"]) else "none"
+        try:
+            summaries.append(run_model(n, quant))
+        except Exception as e:
+            log.info(f"  SKIP {n}: {type(e).__name__}: {e}")
 
     os.makedirs("results", exist_ok=True)
     out = "results/introspect-calibration.json"
