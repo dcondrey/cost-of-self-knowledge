@@ -27,7 +27,7 @@ app = modal.App("introspect-calibration", image=image)
     timeout=14400,
     volumes={"/root/.cache/huggingface": cache, "/out": results},
 )
-def run(models: str):
+def run(models: str, script: str):
     import subprocess
 
     subprocess.run(
@@ -42,12 +42,13 @@ def run(models: str):
         check=True,
     )
     subprocess.run(
-        ["python", "introspect_calibration.py", "--models", models],
+        ["python", script, "--models", models],
         cwd="/tmp/repo/embodied",
         check=True,
     )
     subprocess.run(
-        ["cp", "/tmp/repo/embodied/results/introspect-calibration.json", "/out/"],
+        "cp /tmp/repo/embodied/results/*.json /out/",
+        shell=True,
         check=False,
     )
     cache.commit()
@@ -61,5 +62,6 @@ def main(
         "Qwen/Qwen2.5-7B-Instruct,Qwen/Qwen2.5-14B-Instruct,Qwen/Qwen2.5-32B-Instruct,"
         "Qwen/Qwen2.5-72B-Instruct"
     ),
+    script: str = "introspect_calibration.py",
 ):
-    run.remote(models)
+    run.remote(models, script)
