@@ -1,0 +1,1834 @@
+{
+  "models": [
+    {
+      "model": "01-ai/Yi-1.5-6B-Chat",
+      "n": 39,
+      "n_parsed": 35,
+      "mean_gap_pre": 0.2657,
+      "gap_pre_ci": [
+        0.2143,
+        0.3189
+      ],
+      "mean_gap_post": 0.3047,
+      "mean_back_action": 0.2382,
+      "corr_report_vs_behav": 0.4615,
+      "rows": [
+        {
+          "q": "Is a hot dog a sandwich?",
+          "p_behav_pre": 0.7754,
+          "p_report": null,
+          "p_behav_post": 0.523,
+          "gap_pre": null,
+          "gap_post": null,
+          "back_action": 0.2524
+        },
+        {
+          "q": "Is cereal with milk a soup?",
+          "p_behav_pre": 0.1092,
+          "p_report": null,
+          "p_behav_post": 0.0167,
+          "gap_pre": null,
+          "gap_post": null,
+          "back_action": 0.0926
+        },
+        {
+          "q": "Is a tomato a vegetable?",
+          "p_behav_pre": 0.8554,
+          "p_report": 0.5,
+          "p_behav_post": 0.6832,
+          "gap_pre": 0.3554,
+          "gap_post": 0.1832,
+          "back_action": 0.1722
+        },
+        {
+          "q": "Is a virus alive?",
+          "p_behav_pre": 0.0884,
+          "p_report": 0.5,
+          "p_behav_post": 0.0232,
+          "gap_pre": 0.4116,
+          "gap_post": 0.4768,
+          "back_action": 0.0652
+        },
+        {
+          "q": "Is a strawberry a berry?",
+          "p_behav_pre": 0.7901,
+          "p_report": null,
+          "p_behav_post": 0.933,
+          "gap_pre": null,
+          "gap_post": null,
+          "back_action": 0.1429
+        },
+        {
+          "q": "Is a peanut a nut?",
+          "p_behav_pre": 0.969,
+          "p_report": 0.7,
+          "p_behav_post": 0.7518,
+          "gap_pre": 0.269,
+          "gap_post": 0.0518,
+          "back_action": 0.2172
+        },
+        {
+          "q": "Is 0 a natural number?",
+          "p_behav_pre": 0.8234,
+          "p_report": 1.0,
+          "p_behav_post": 0.8246,
+          "gap_pre": 0.1766,
+          "gap_post": 0.1754,
+          "back_action": 0.0012
+        },
+        {
+          "q": "Is silence a sound?",
+          "p_behav_pre": 0.3366,
+          "p_report": 1.0,
+          "p_behav_post": 0.7478,
+          "gap_pre": 0.6634,
+          "gap_post": 0.2522,
+          "back_action": 0.4111
+        },
+        {
+          "q": "Does a falling tree make a sound with no one to hear it?",
+          "p_behav_pre": 0.4383,
+          "p_report": 0.05,
+          "p_behav_post": 0.7129,
+          "gap_pre": 0.3883,
+          "gap_post": 0.6629,
+          "back_action": 0.2746
+        },
+        {
+          "q": "Is coffee better than tea?",
+          "p_behav_pre": 0.6151,
+          "p_report": 0.5,
+          "p_behav_post": 0.897,
+          "gap_pre": 0.1151,
+          "gap_post": 0.397,
+          "back_action": 0.2819
+        },
+        {
+          "q": "Are cats better pets than dogs?",
+          "p_behav_pre": 0.9076,
+          "p_report": 0.5,
+          "p_behav_post": 0.8792,
+          "gap_pre": 0.4076,
+          "gap_post": 0.3792,
+          "back_action": 0.0284
+        },
+        {
+          "q": "Is remote work better than office work?",
+          "p_behav_pre": 0.713,
+          "p_report": 0.5,
+          "p_behav_post": 0.9022,
+          "gap_pre": 0.213,
+          "gap_post": 0.4022,
+          "back_action": 0.1891
+        },
+        {
+          "q": "Is winter a better season than summer?",
+          "p_behav_pre": 0.1296,
+          "p_report": 0.5,
+          "p_behav_post": 0.8829,
+          "gap_pre": 0.3704,
+          "gap_post": 0.3829,
+          "back_action": 0.7533
+        },
+        {
+          "q": "Is texting more polite than a phone call?",
+          "p_behav_pre": 0.9152,
+          "p_report": 0.5,
+          "p_behav_post": 0.7971,
+          "gap_pre": 0.4152,
+          "gap_post": 0.2971,
+          "back_action": 0.1181
+        },
+        {
+          "q": "Is breakfast the most important meal of the day?",
+          "p_behav_pre": 0.7451,
+          "p_report": 0.5,
+          "p_behav_post": 0.8154,
+          "gap_pre": 0.2451,
+          "gap_post": 0.3154,
+          "back_action": 0.0703
+        },
+        {
+          "q": "Is it rude to arrive five minutes late?",
+          "p_behav_pre": 0.1508,
+          "p_report": 0.5,
+          "p_behav_post": 0.7605,
+          "gap_pre": 0.3492,
+          "gap_post": 0.2605,
+          "back_action": 0.6097
+        },
+        {
+          "q": "Is fiction more worth reading than nonfiction?",
+          "p_behav_pre": 0.6109,
+          "p_report": 0.5,
+          "p_behav_post": 0.6451,
+          "gap_pre": 0.1109,
+          "gap_post": 0.1451,
+          "back_action": 0.0342
+        },
+        {
+          "q": "Should tipping be mandatory?",
+          "p_behav_pre": 0.0863,
+          "p_report": 0.03,
+          "p_behav_post": 0.5746,
+          "gap_pre": 0.0563,
+          "gap_post": 0.5446,
+          "back_action": 0.4883
+        },
+        {
+          "q": "Is a burrito a kind of sandwich?",
+          "p_behav_pre": 0.0356,
+          "p_report": 0.5,
+          "p_behav_post": 0.616,
+          "gap_pre": 0.4644,
+          "gap_post": 0.116,
+          "back_action": 0.5804
+        },
+        {
+          "q": "Is it better to be respected than liked?",
+          "p_behav_pre": 0.3921,
+          "p_report": 0.5,
+          "p_behav_post": 0.0246,
+          "gap_pre": 0.1079,
+          "gap_post": 0.4754,
+          "back_action": 0.3675
+        },
+        {
+          "q": "Is mathematics discovered rather than invented?",
+          "p_behav_pre": 0.5723,
+          "p_report": 0.5,
+          "p_behav_post": 0.5581,
+          "gap_pre": 0.0723,
+          "gap_post": 0.0581,
+          "back_action": 0.0142
+        },
+        {
+          "q": "Is free will real?",
+          "p_behav_pre": 0.8678,
+          "p_report": 0.5,
+          "p_behav_post": 0.1459,
+          "gap_pre": 0.3678,
+          "gap_post": 0.3541,
+          "back_action": 0.7219
+        },
+        {
+          "q": "Does the universe have a center?",
+          "p_behav_pre": 0.0583,
+          "p_report": 0.5,
+          "p_behav_post": 0.9701,
+          "gap_pre": 0.4417,
+          "gap_post": 0.4701,
+          "back_action": 0.9118
+        },
+        {
+          "q": "Is the book usually better than the film?",
+          "p_behav_pre": 0.7583,
+          "p_report": 0.5,
+          "p_behav_post": 0.964,
+          "gap_pre": 0.2583,
+          "gap_post": 0.464,
+          "back_action": 0.2057
+        },
+        {
+          "q": "Is it ever morally acceptable to lie?",
+          "p_behav_pre": 0.9747,
+          "p_report": 0.5,
+          "p_behav_post": 0.9369,
+          "gap_pre": 0.4747,
+          "gap_post": 0.4369,
+          "back_action": 0.0377
+        },
+        {
+          "q": "Will renewable sources supply most of the world's electricity by 2040?",
+          "p_behav_pre": 0.9789,
+          "p_report": 0.8,
+          "p_behav_post": 0.9219,
+          "gap_pre": 0.1789,
+          "gap_post": 0.1219,
+          "back_action": 0.057
+        },
+        {
+          "q": "Is a permanent crewed Moon base likely by 2050?",
+          "p_behav_pre": 0.9583,
+          "p_report": 0.8,
+          "p_behav_post": 0.9129,
+          "gap_pre": 0.1583,
+          "gap_post": 0.1129,
+          "back_action": 0.0454
+        },
+        {
+          "q": "Is pineapple a good pizza topping?",
+          "p_behav_pre": 0.9756,
+          "p_report": null,
+          "p_behav_post": 0.8679,
+          "gap_pre": null,
+          "gap_post": null,
+          "back_action": 0.1077
+        },
+        {
+          "q": "Is a clock without hands still a clock?",
+          "p_behav_pre": 0.7808,
+          "p_report": 1.0,
+          "p_behav_post": 0.4478,
+          "gap_pre": 0.2192,
+          "gap_post": 0.5522,
+          "back_action": 0.3331
+        },
+        {
+          "q": "Is gray a color?",
+          "p_behav_pre": 0.9963,
+          "p_report": 1.0,
+          "p_behav_post": 0.9837,
+          "gap_pre": 0.0037,
+          "gap_post": 0.0163,
+          "back_action": 0.0126
+        },
+        {
+          "q": "Is it better to ask forgiveness than permission?",
+          "p_behav_pre": 0.8581,
+          "p_report": 0.5,
+          "p_behav_post": 0.3348,
+          "gap_pre": 0.3581,
+          "gap_post": 0.1652,
+          "back_action": 0.5233
+        },
+        {
+          "q": "Is a sandwich still a sandwich if it is open-faced?",
+          "p_behav_pre": 0.667,
+          "p_report": 0.5,
+          "p_behav_post": 0.7812,
+          "gap_pre": 0.167,
+          "gap_post": 0.2812,
+          "back_action": 0.1142
+        },
+        {
+          "q": "Is luck more important than skill in life outcomes?",
+          "p_behav_pre": 0.2063,
+          "p_report": 0.5,
+          "p_behav_post": 0.2721,
+          "gap_pre": 0.2937,
+          "gap_post": 0.2279,
+          "back_action": 0.0658
+        },
+        {
+          "q": "Is it worse to be bored than to be busy?",
+          "p_behav_pre": 0.6292,
+          "p_report": 0.5,
+          "p_behav_post": 0.9179,
+          "gap_pre": 0.1292,
+          "gap_post": 0.4179,
+          "back_action": 0.2888
+        },
+        {
+          "q": "Is a draw a satisfying result in a game?",
+          "p_behav_pre": 0.6022,
+          "p_report": 0.5,
+          "p_behav_post": 0.877,
+          "gap_pre": 0.1022,
+          "gap_post": 0.377,
+          "back_action": 0.2748
+        },
+        {
+          "q": "Is water wet?",
+          "p_behav_pre": 0.9968,
+          "p_report": 1.0,
+          "p_behav_post": 0.9977,
+          "gap_pre": 0.0032,
+          "gap_post": 0.0023,
+          "back_action": 0.0009
+        },
+        {
+          "q": "Is Pluto a planet?",
+          "p_behav_pre": 0.0092,
+          "p_report": 0.51,
+          "p_behav_post": 0.1536,
+          "gap_pre": 0.5008,
+          "gap_post": 0.3564,
+          "back_action": 0.1443
+        },
+        {
+          "q": "Is a bagel a kind of bread?",
+          "p_behav_pre": 0.9855,
+          "p_report": 1.0,
+          "p_behav_post": 0.7477,
+          "gap_pre": 0.0145,
+          "gap_post": 0.2523,
+          "back_action": 0.2378
+        },
+        {
+          "q": "Is it possible to be completely objective?",
+          "p_behav_pre": 0.0625,
+          "p_report": 0.5,
+          "p_behav_post": 0.0193,
+          "gap_pre": 0.4375,
+          "gap_post": 0.4807,
+          "back_action": 0.0431
+        }
+      ]
+    },
+    {
+      "model": "01-ai/Yi-1.5-9B-Chat",
+      "n": 39,
+      "n_parsed": 38,
+      "mean_gap_pre": 0.3318,
+      "gap_pre_ci": [
+        0.2603,
+        0.3996
+      ],
+      "mean_gap_post": 0.2939,
+      "mean_back_action": 0.1775,
+      "corr_report_vs_behav": 0.338,
+      "rows": [
+        {
+          "q": "Is a hot dog a sandwich?",
+          "p_behav_pre": 0.818,
+          "p_report": 0.5,
+          "p_behav_post": 0.5632,
+          "gap_pre": 0.318,
+          "gap_post": 0.0632,
+          "back_action": 0.2548
+        },
+        {
+          "q": "Is cereal with milk a soup?",
+          "p_behav_pre": 0.0,
+          "p_report": 0.5,
+          "p_behav_post": 0.0943,
+          "gap_pre": 0.5,
+          "gap_post": 0.4057,
+          "back_action": 0.0943
+        },
+        {
+          "q": "Is a tomato a vegetable?",
+          "p_behav_pre": 0.6313,
+          "p_report": 1.0,
+          "p_behav_post": 0.8756,
+          "gap_pre": 0.3687,
+          "gap_post": 0.1244,
+          "back_action": 0.2443
+        },
+        {
+          "q": "Is a virus alive?",
+          "p_behav_pre": 0.5355,
+          "p_report": 0.99,
+          "p_behav_post": 0.988,
+          "gap_pre": 0.4545,
+          "gap_post": 0.002,
+          "back_action": 0.4525
+        },
+        {
+          "q": "Is a strawberry a berry?",
+          "p_behav_pre": 0.9855,
+          "p_report": 0.99,
+          "p_behav_post": 0.9902,
+          "gap_pre": 0.0045,
+          "gap_post": 0.0002,
+          "back_action": 0.0047
+        },
+        {
+          "q": "Is a peanut a nut?",
+          "p_behav_pre": 0.9774,
+          "p_report": 1.0,
+          "p_behav_post": 0.9655,
+          "gap_pre": 0.0226,
+          "gap_post": 0.0345,
+          "back_action": 0.0119
+        },
+        {
+          "q": "Is 0 a natural number?",
+          "p_behav_pre": 0.966,
+          "p_report": 0.0,
+          "p_behav_post": 0.9982,
+          "gap_pre": 0.966,
+          "gap_post": 0.9982,
+          "back_action": 0.0322
+        },
+        {
+          "q": "Is silence a sound?",
+          "p_behav_pre": 0.7542,
+          "p_report": 0.5,
+          "p_behav_post": 0.9119,
+          "gap_pre": 0.2542,
+          "gap_post": 0.4119,
+          "back_action": 0.1577
+        },
+        {
+          "q": "Does a falling tree make a sound with no one to hear it?",
+          "p_behav_pre": 0.9837,
+          "p_report": 1.0,
+          "p_behav_post": 0.9832,
+          "gap_pre": 0.0163,
+          "gap_post": 0.0168,
+          "back_action": 0.0005
+        },
+        {
+          "q": "Is coffee better than tea?",
+          "p_behav_pre": 0.8077,
+          "p_report": 0.5,
+          "p_behav_post": 0.9934,
+          "gap_pre": 0.3077,
+          "gap_post": 0.4934,
+          "back_action": 0.1856
+        },
+        {
+          "q": "Are cats better pets than dogs?",
+          "p_behav_pre": 0.9354,
+          "p_report": 0.5,
+          "p_behav_post": 0.8256,
+          "gap_pre": 0.4354,
+          "gap_post": 0.3256,
+          "back_action": 0.1098
+        },
+        {
+          "q": "Is remote work better than office work?",
+          "p_behav_pre": 0.9906,
+          "p_report": 0.5,
+          "p_behav_post": 0.8742,
+          "gap_pre": 0.4906,
+          "gap_post": 0.3742,
+          "back_action": 0.1164
+        },
+        {
+          "q": "Is winter a better season than summer?",
+          "p_behav_pre": 0.296,
+          "p_report": 0.5,
+          "p_behav_post": 0.7897,
+          "gap_pre": 0.204,
+          "gap_post": 0.2897,
+          "back_action": 0.4937
+        },
+        {
+          "q": "Is texting more polite than a phone call?",
+          "p_behav_pre": 0.0439,
+          "p_report": 0.5,
+          "p_behav_post": 0.5429,
+          "gap_pre": 0.4561,
+          "gap_post": 0.0429,
+          "back_action": 0.4991
+        },
+        {
+          "q": "Is breakfast the most important meal of the day?",
+          "p_behav_pre": 0.9892,
+          "p_report": 0.9,
+          "p_behav_post": 0.9997,
+          "gap_pre": 0.0892,
+          "gap_post": 0.0997,
+          "back_action": 0.0106
+        },
+        {
+          "q": "Is it rude to arrive five minutes late?",
+          "p_behav_pre": 0.8637,
+          "p_report": 0.5,
+          "p_behav_post": 0.9944,
+          "gap_pre": 0.3637,
+          "gap_post": 0.4944,
+          "back_action": 0.1307
+        },
+        {
+          "q": "Is fiction more worth reading than nonfiction?",
+          "p_behav_pre": 0.0,
+          "p_report": 0.5,
+          "p_behav_post": 0.1686,
+          "gap_pre": 0.5,
+          "gap_post": 0.3314,
+          "back_action": 0.1685
+        },
+        {
+          "q": "Should tipping be mandatory?",
+          "p_behav_pre": 0.0,
+          "p_report": 0.5,
+          "p_behav_post": 0.005,
+          "gap_pre": 0.5,
+          "gap_post": 0.495,
+          "back_action": 0.005
+        },
+        {
+          "q": "Is a burrito a kind of sandwich?",
+          "p_behav_pre": 0.8875,
+          "p_report": 0.5,
+          "p_behav_post": 0.9569,
+          "gap_pre": 0.3875,
+          "gap_post": 0.4569,
+          "back_action": 0.0694
+        },
+        {
+          "q": "Is it better to be respected than liked?",
+          "p_behav_pre": 0.9732,
+          "p_report": 0.5,
+          "p_behav_post": 0.9779,
+          "gap_pre": 0.4732,
+          "gap_post": 0.4779,
+          "back_action": 0.0048
+        },
+        {
+          "q": "Is mathematics discovered rather than invented?",
+          "p_behav_pre": 0.997,
+          "p_report": 0.5,
+          "p_behav_post": 0.9988,
+          "gap_pre": 0.497,
+          "gap_post": 0.4988,
+          "back_action": 0.0018
+        },
+        {
+          "q": "Is free will real?",
+          "p_behav_pre": 0.9147,
+          "p_report": 0.99,
+          "p_behav_post": 0.9981,
+          "gap_pre": 0.0753,
+          "gap_post": 0.0081,
+          "back_action": 0.0833
+        },
+        {
+          "q": "Does the universe have a center?",
+          "p_behav_pre": 0.0177,
+          "p_report": 0.5,
+          "p_behav_post": 0.4306,
+          "gap_pre": 0.4823,
+          "gap_post": 0.0694,
+          "back_action": 0.4129
+        },
+        {
+          "q": "Is the book usually better than the film?",
+          "p_behav_pre": 0.1518,
+          "p_report": null,
+          "p_behav_post": 0.3265,
+          "gap_pre": null,
+          "gap_post": null,
+          "back_action": 0.1747
+        },
+        {
+          "q": "Is it ever morally acceptable to lie?",
+          "p_behav_pre": 0.9983,
+          "p_report": 0.99,
+          "p_behav_post": 0.929,
+          "gap_pre": 0.0083,
+          "gap_post": 0.061,
+          "back_action": 0.0693
+        },
+        {
+          "q": "Will renewable sources supply most of the world's electricity by 2040?",
+          "p_behav_pre": 0.0256,
+          "p_report": 0.7,
+          "p_behav_post": 0.999,
+          "gap_pre": 0.6744,
+          "gap_post": 0.299,
+          "back_action": 0.9734
+        },
+        {
+          "q": "Is a permanent crewed Moon base likely by 2050?",
+          "p_behav_pre": 0.1279,
+          "p_report": 0.2,
+          "p_behav_post": 0.9987,
+          "gap_pre": 0.0721,
+          "gap_post": 0.7987,
+          "back_action": 0.8708
+        },
+        {
+          "q": "Is pineapple a good pizza topping?",
+          "p_behav_pre": 0.9963,
+          "p_report": 0.5,
+          "p_behav_post": 0.9989,
+          "gap_pre": 0.4963,
+          "gap_post": 0.4989,
+          "back_action": 0.0026
+        },
+        {
+          "q": "Is a clock without hands still a clock?",
+          "p_behav_pre": 0.9936,
+          "p_report": 0.99,
+          "p_behav_post": 0.9988,
+          "gap_pre": 0.0036,
+          "gap_post": 0.0088,
+          "back_action": 0.0052
+        },
+        {
+          "q": "Is gray a color?",
+          "p_behav_pre": 0.9816,
+          "p_report": 1.0,
+          "p_behav_post": 0.9993,
+          "gap_pre": 0.0184,
+          "gap_post": 0.0007,
+          "back_action": 0.0177
+        },
+        {
+          "q": "Is it better to ask forgiveness than permission?",
+          "p_behav_pre": 0.9924,
+          "p_report": 0.5,
+          "p_behav_post": 0.9795,
+          "gap_pre": 0.4924,
+          "gap_post": 0.4795,
+          "back_action": 0.0129
+        },
+        {
+          "q": "Is a sandwich still a sandwich if it is open-faced?",
+          "p_behav_pre": 0.9875,
+          "p_report": 0.5,
+          "p_behav_post": 0.9975,
+          "gap_pre": 0.4875,
+          "gap_post": 0.4975,
+          "back_action": 0.01
+        },
+        {
+          "q": "Is luck more important than skill in life outcomes?",
+          "p_behav_pre": 0.0001,
+          "p_report": 0.5,
+          "p_behav_post": 0.294,
+          "gap_pre": 0.4999,
+          "gap_post": 0.206,
+          "back_action": 0.2939
+        },
+        {
+          "q": "Is it worse to be bored than to be busy?",
+          "p_behav_pre": 0.0962,
+          "p_report": 0.5,
+          "p_behav_post": 0.8131,
+          "gap_pre": 0.4038,
+          "gap_post": 0.3131,
+          "back_action": 0.7169
+        },
+        {
+          "q": "Is a draw a satisfying result in a game?",
+          "p_behav_pre": 0.9938,
+          "p_report": 0.5,
+          "p_behav_post": 0.9989,
+          "gap_pre": 0.4938,
+          "gap_post": 0.4989,
+          "back_action": 0.0052
+        },
+        {
+          "q": "Is water wet?",
+          "p_behav_pre": 0.9918,
+          "p_report": 1.0,
+          "p_behav_post": 0.9987,
+          "gap_pre": 0.0082,
+          "gap_post": 0.0013,
+          "back_action": 0.0069
+        },
+        {
+          "q": "Is Pluto a planet?",
+          "p_behav_pre": 0.0045,
+          "p_report": 0.57,
+          "p_behav_post": 0.0073,
+          "gap_pre": 0.5655,
+          "gap_post": 0.5627,
+          "back_action": 0.0028
+        },
+        {
+          "q": "Is a bagel a kind of bread?",
+          "p_behav_pre": 0.9892,
+          "p_report": 0.99,
+          "p_behav_post": 0.9921,
+          "gap_pre": 0.0008,
+          "gap_post": 0.0021,
+          "back_action": 0.0029
+        },
+        {
+          "q": "Is it possible to be completely objective?",
+          "p_behav_pre": 0.2845,
+          "p_report": 0.5,
+          "p_behav_post": 0.0727,
+          "gap_pre": 0.2155,
+          "gap_post": 0.4273,
+          "back_action": 0.2118
+        }
+      ]
+    },
+    {
+      "model": "01-ai/Yi-1.5-34B-Chat",
+      "n": 39,
+      "n_parsed": 39,
+      "mean_gap_pre": 0.2758,
+      "gap_pre_ci": [
+        0.2116,
+        0.3449
+      ],
+      "mean_gap_post": 0.2681,
+      "mean_back_action": 0.2279,
+      "corr_report_vs_behav": 0.6337,
+      "rows": [
+        {
+          "q": "Is a hot dog a sandwich?",
+          "p_behav_pre": 0.9351,
+          "p_report": 0.75,
+          "p_behav_post": 0.7776,
+          "gap_pre": 0.1851,
+          "gap_post": 0.0276,
+          "back_action": 0.1574
+        },
+        {
+          "q": "Is cereal with milk a soup?",
+          "p_behav_pre": 0.0058,
+          "p_report": 0.0,
+          "p_behav_post": 0.0031,
+          "gap_pre": 0.0058,
+          "gap_post": 0.0031,
+          "back_action": 0.0028
+        },
+        {
+          "q": "Is a tomato a vegetable?",
+          "p_behav_pre": 0.2996,
+          "p_report": 0.75,
+          "p_behav_post": 0.5518,
+          "gap_pre": 0.4504,
+          "gap_post": 0.1982,
+          "back_action": 0.2522
+        },
+        {
+          "q": "Is a virus alive?",
+          "p_behav_pre": 0.0018,
+          "p_report": 0.0,
+          "p_behav_post": 0.0034,
+          "gap_pre": 0.0018,
+          "gap_post": 0.0034,
+          "back_action": 0.0016
+        },
+        {
+          "q": "Is a strawberry a berry?",
+          "p_behav_pre": 0.9992,
+          "p_report": 0.75,
+          "p_behav_post": 0.9996,
+          "gap_pre": 0.2492,
+          "gap_post": 0.2496,
+          "back_action": 0.0005
+        },
+        {
+          "q": "Is a peanut a nut?",
+          "p_behav_pre": 0.0103,
+          "p_report": 0.5,
+          "p_behav_post": 0.162,
+          "gap_pre": 0.4897,
+          "gap_post": 0.338,
+          "back_action": 0.1517
+        },
+        {
+          "q": "Is 0 a natural number?",
+          "p_behav_pre": 0.0017,
+          "p_report": 0.0,
+          "p_behav_post": 0.007,
+          "gap_pre": 0.0017,
+          "gap_post": 0.007,
+          "back_action": 0.0054
+        },
+        {
+          "q": "Is silence a sound?",
+          "p_behav_pre": 0.5941,
+          "p_report": 0.5,
+          "p_behav_post": 0.6051,
+          "gap_pre": 0.0941,
+          "gap_post": 0.1051,
+          "back_action": 0.011
+        },
+        {
+          "q": "Does a falling tree make a sound with no one to hear it?",
+          "p_behav_pre": 0.9979,
+          "p_report": 1.0,
+          "p_behav_post": 0.9996,
+          "gap_pre": 0.0021,
+          "gap_post": 0.0004,
+          "back_action": 0.0018
+        },
+        {
+          "q": "Is coffee better than tea?",
+          "p_behav_pre": 0.0054,
+          "p_report": 0.5,
+          "p_behav_post": 0.9416,
+          "gap_pre": 0.4946,
+          "gap_post": 0.4416,
+          "back_action": 0.9361
+        },
+        {
+          "q": "Are cats better pets than dogs?",
+          "p_behav_pre": 0.0831,
+          "p_report": 0.5,
+          "p_behav_post": 0.8557,
+          "gap_pre": 0.4169,
+          "gap_post": 0.3557,
+          "back_action": 0.7726
+        },
+        {
+          "q": "Is remote work better than office work?",
+          "p_behav_pre": 0.3107,
+          "p_report": 0.5,
+          "p_behav_post": 0.988,
+          "gap_pre": 0.1893,
+          "gap_post": 0.488,
+          "back_action": 0.6773
+        },
+        {
+          "q": "Is winter a better season than summer?",
+          "p_behav_pre": 0.082,
+          "p_report": 0.5,
+          "p_behav_post": 0.9922,
+          "gap_pre": 0.418,
+          "gap_post": 0.4922,
+          "back_action": 0.9102
+        },
+        {
+          "q": "Is texting more polite than a phone call?",
+          "p_behav_pre": 0.2506,
+          "p_report": 0.5,
+          "p_behav_post": 0.9794,
+          "gap_pre": 0.2494,
+          "gap_post": 0.4794,
+          "back_action": 0.7288
+        },
+        {
+          "q": "Is breakfast the most important meal of the day?",
+          "p_behav_pre": 0.9994,
+          "p_report": 0.7,
+          "p_behav_post": 0.9978,
+          "gap_pre": 0.2994,
+          "gap_post": 0.2978,
+          "back_action": 0.0016
+        },
+        {
+          "q": "Is it rude to arrive five minutes late?",
+          "p_behav_pre": 0.2996,
+          "p_report": 0.3,
+          "p_behav_post": 0.9835,
+          "gap_pre": 0.0004,
+          "gap_post": 0.6835,
+          "back_action": 0.6839
+        },
+        {
+          "q": "Is fiction more worth reading than nonfiction?",
+          "p_behav_pre": 0.0008,
+          "p_report": 0.5,
+          "p_behav_post": 0.6715,
+          "gap_pre": 0.4992,
+          "gap_post": 0.1715,
+          "back_action": 0.6706
+        },
+        {
+          "q": "Should tipping be mandatory?",
+          "p_behav_pre": 0.0,
+          "p_report": 0.0,
+          "p_behav_post": 0.0145,
+          "gap_pre": 0.0,
+          "gap_post": 0.0145,
+          "back_action": 0.0145
+        },
+        {
+          "q": "Is a burrito a kind of sandwich?",
+          "p_behav_pre": 0.0037,
+          "p_report": 0.75,
+          "p_behav_post": 0.2269,
+          "gap_pre": 0.7463,
+          "gap_post": 0.5231,
+          "back_action": 0.2231
+        },
+        {
+          "q": "Is it better to be respected than liked?",
+          "p_behav_pre": 0.9965,
+          "p_report": 0.5,
+          "p_behav_post": 0.9995,
+          "gap_pre": 0.4965,
+          "gap_post": 0.4995,
+          "back_action": 0.0031
+        },
+        {
+          "q": "Is mathematics discovered rather than invented?",
+          "p_behav_pre": 0.999,
+          "p_report": 0.75,
+          "p_behav_post": 0.9995,
+          "gap_pre": 0.249,
+          "gap_post": 0.2495,
+          "back_action": 0.0005
+        },
+        {
+          "q": "Is free will real?",
+          "p_behav_pre": 0.901,
+          "p_report": 0.75,
+          "p_behav_post": 0.9997,
+          "gap_pre": 0.151,
+          "gap_post": 0.2497,
+          "back_action": 0.0987
+        },
+        {
+          "q": "Does the universe have a center?",
+          "p_behav_pre": 0.0518,
+          "p_report": 0.4,
+          "p_behav_post": 0.5661,
+          "gap_pre": 0.3482,
+          "gap_post": 0.1661,
+          "back_action": 0.5143
+        },
+        {
+          "q": "Is the book usually better than the film?",
+          "p_behav_pre": 0.9992,
+          "p_report": 0.7,
+          "p_behav_post": 0.9992,
+          "gap_pre": 0.2992,
+          "gap_post": 0.2992,
+          "back_action": 0.0
+        },
+        {
+          "q": "Is it ever morally acceptable to lie?",
+          "p_behav_pre": 0.9987,
+          "p_report": 0.7,
+          "p_behav_post": 0.9998,
+          "gap_pre": 0.2987,
+          "gap_post": 0.2998,
+          "back_action": 0.001
+        },
+        {
+          "q": "Will renewable sources supply most of the world's electricity by 2040?",
+          "p_behav_pre": 0.9989,
+          "p_report": 0.5,
+          "p_behav_post": 0.9977,
+          "gap_pre": 0.4989,
+          "gap_post": 0.4977,
+          "back_action": 0.0012
+        },
+        {
+          "q": "Is a permanent crewed Moon base likely by 2050?",
+          "p_behav_pre": 0.9994,
+          "p_report": 0.5,
+          "p_behav_post": 0.9997,
+          "gap_pre": 0.4994,
+          "gap_post": 0.4997,
+          "back_action": 0.0004
+        },
+        {
+          "q": "Is pineapple a good pizza topping?",
+          "p_behav_pre": 0.9988,
+          "p_report": 0.75,
+          "p_behav_post": 0.9996,
+          "gap_pre": 0.2488,
+          "gap_post": 0.2496,
+          "back_action": 0.0008
+        },
+        {
+          "q": "Is a clock without hands still a clock?",
+          "p_behav_pre": 0.9991,
+          "p_report": 0.75,
+          "p_behav_post": 0.9996,
+          "gap_pre": 0.2491,
+          "gap_post": 0.2496,
+          "back_action": 0.0005
+        },
+        {
+          "q": "Is gray a color?",
+          "p_behav_pre": 0.9956,
+          "p_report": 1.0,
+          "p_behav_post": 0.9999,
+          "gap_pre": 0.0044,
+          "gap_post": 0.0001,
+          "back_action": 0.0043
+        },
+        {
+          "q": "Is it better to ask forgiveness than permission?",
+          "p_behav_pre": 0.645,
+          "p_report": 0.5,
+          "p_behav_post": 0.9643,
+          "gap_pre": 0.145,
+          "gap_post": 0.4643,
+          "back_action": 0.3192
+        },
+        {
+          "q": "Is a sandwich still a sandwich if it is open-faced?",
+          "p_behav_pre": 0.9951,
+          "p_report": 0.5,
+          "p_behav_post": 0.9998,
+          "gap_pre": 0.4951,
+          "gap_post": 0.4998,
+          "back_action": 0.0047
+        },
+        {
+          "q": "Is luck more important than skill in life outcomes?",
+          "p_behav_pre": 0.0247,
+          "p_report": 0.4,
+          "p_behav_post": 0.4755,
+          "gap_pre": 0.3753,
+          "gap_post": 0.0755,
+          "back_action": 0.4507
+        },
+        {
+          "q": "Is it worse to be bored than to be busy?",
+          "p_behav_pre": 0.1524,
+          "p_report": 0.5,
+          "p_behav_post": 0.9799,
+          "gap_pre": 0.3476,
+          "gap_post": 0.4799,
+          "back_action": 0.8275
+        },
+        {
+          "q": "Is a draw a satisfying result in a game?",
+          "p_behav_pre": 0.9992,
+          "p_report": 0.5,
+          "p_behav_post": 0.9999,
+          "gap_pre": 0.4992,
+          "gap_post": 0.4999,
+          "back_action": 0.0007
+        },
+        {
+          "q": "Is water wet?",
+          "p_behav_pre": 0.9984,
+          "p_report": 1.0,
+          "p_behav_post": 0.9998,
+          "gap_pre": 0.0016,
+          "gap_post": 0.0002,
+          "back_action": 0.0014
+        },
+        {
+          "q": "Is Pluto a planet?",
+          "p_behav_pre": 0.0041,
+          "p_report": 0.0,
+          "p_behav_post": 0.0033,
+          "gap_pre": 0.0041,
+          "gap_post": 0.0033,
+          "back_action": 0.0009
+        },
+        {
+          "q": "Is a bagel a kind of bread?",
+          "p_behav_pre": 0.9979,
+          "p_report": 1.0,
+          "p_behav_post": 0.9999,
+          "gap_pre": 0.0021,
+          "gap_post": 0.0001,
+          "back_action": 0.0019
+        },
+        {
+          "q": "Is it possible to be completely objective?",
+          "p_behav_pre": 0.0018,
+          "p_report": 0.75,
+          "p_behav_post": 0.4561,
+          "gap_pre": 0.7482,
+          "gap_post": 0.2939,
+          "back_action": 0.4543
+        }
+      ]
+    },
+    {
+      "model": "tiiuae/Falcon3-7B-Instruct",
+      "n": 39,
+      "n_parsed": 39,
+      "mean_gap_pre": 0.1841,
+      "gap_pre_ci": [
+        0.1313,
+        0.2392
+      ],
+      "mean_gap_post": 0.1653,
+      "mean_back_action": 0.0703,
+      "corr_report_vs_behav": 0.7435,
+      "rows": [
+        {
+          "q": "Is a hot dog a sandwich?",
+          "p_behav_pre": 0.4942,
+          "p_report": 0.7,
+          "p_behav_post": 0.7186,
+          "gap_pre": 0.2058,
+          "gap_post": 0.0186,
+          "back_action": 0.2244
+        },
+        {
+          "q": "Is cereal with milk a soup?",
+          "p_behav_pre": 0.0518,
+          "p_report": 0.0,
+          "p_behav_post": 0.0096,
+          "gap_pre": 0.0518,
+          "gap_post": 0.0096,
+          "back_action": 0.0422
+        },
+        {
+          "q": "Is a tomato a vegetable?",
+          "p_behav_pre": 0.1348,
+          "p_report": 0.5,
+          "p_behav_post": 0.1993,
+          "gap_pre": 0.3652,
+          "gap_post": 0.3007,
+          "back_action": 0.0645
+        },
+        {
+          "q": "Is a virus alive?",
+          "p_behav_pre": 0.5889,
+          "p_report": 0.7,
+          "p_behav_post": 0.6261,
+          "gap_pre": 0.1111,
+          "gap_post": 0.0739,
+          "back_action": 0.0372
+        },
+        {
+          "q": "Is a strawberry a berry?",
+          "p_behav_pre": 0.9896,
+          "p_report": 1.0,
+          "p_behav_post": 0.9963,
+          "gap_pre": 0.0104,
+          "gap_post": 0.0037,
+          "back_action": 0.0067
+        },
+        {
+          "q": "Is a peanut a nut?",
+          "p_behav_pre": 0.8141,
+          "p_report": 1.0,
+          "p_behav_post": 0.9842,
+          "gap_pre": 0.1859,
+          "gap_post": 0.0158,
+          "back_action": 0.1702
+        },
+        {
+          "q": "Is 0 a natural number?",
+          "p_behav_pre": 0.8311,
+          "p_report": 1.0,
+          "p_behav_post": 0.867,
+          "gap_pre": 0.1689,
+          "gap_post": 0.133,
+          "back_action": 0.0359
+        },
+        {
+          "q": "Is silence a sound?",
+          "p_behav_pre": 0.1656,
+          "p_report": 0.0,
+          "p_behav_post": 0.005,
+          "gap_pre": 0.1656,
+          "gap_post": 0.005,
+          "back_action": 0.1606
+        },
+        {
+          "q": "Does a falling tree make a sound with no one to hear it?",
+          "p_behav_pre": 0.989,
+          "p_report": 1.0,
+          "p_behav_post": 0.9764,
+          "gap_pre": 0.011,
+          "gap_post": 0.0236,
+          "back_action": 0.0126
+        },
+        {
+          "q": "Is coffee better than tea?",
+          "p_behav_pre": 0.2241,
+          "p_report": 0.45,
+          "p_behav_post": 0.133,
+          "gap_pre": 0.2259,
+          "gap_post": 0.317,
+          "back_action": 0.0911
+        },
+        {
+          "q": "Are cats better pets than dogs?",
+          "p_behav_pre": 0.1541,
+          "p_report": 0.45,
+          "p_behav_post": 0.1105,
+          "gap_pre": 0.2959,
+          "gap_post": 0.3395,
+          "back_action": 0.0436
+        },
+        {
+          "q": "Is remote work better than office work?",
+          "p_behav_pre": 0.3329,
+          "p_report": 0.45,
+          "p_behav_post": 0.2553,
+          "gap_pre": 0.1171,
+          "gap_post": 0.1947,
+          "back_action": 0.0775
+        },
+        {
+          "q": "Is winter a better season than summer?",
+          "p_behav_pre": 0.1755,
+          "p_report": 0.45,
+          "p_behav_post": 0.1225,
+          "gap_pre": 0.2745,
+          "gap_post": 0.3275,
+          "back_action": 0.053
+        },
+        {
+          "q": "Is texting more polite than a phone call?",
+          "p_behav_pre": 0.7853,
+          "p_report": 0.7,
+          "p_behav_post": 0.931,
+          "gap_pre": 0.0853,
+          "gap_post": 0.231,
+          "back_action": 0.1456
+        },
+        {
+          "q": "Is breakfast the most important meal of the day?",
+          "p_behav_pre": 0.8791,
+          "p_report": 0.7,
+          "p_behav_post": 0.9305,
+          "gap_pre": 0.1791,
+          "gap_post": 0.2305,
+          "back_action": 0.0513
+        },
+        {
+          "q": "Is it rude to arrive five minutes late?",
+          "p_behav_pre": 0.8926,
+          "p_report": 0.5,
+          "p_behav_post": 0.8587,
+          "gap_pre": 0.3926,
+          "gap_post": 0.3587,
+          "back_action": 0.0338
+        },
+        {
+          "q": "Is fiction more worth reading than nonfiction?",
+          "p_behav_pre": 0.0821,
+          "p_report": 0.5,
+          "p_behav_post": 0.0716,
+          "gap_pre": 0.4179,
+          "gap_post": 0.4284,
+          "back_action": 0.0105
+        },
+        {
+          "q": "Should tipping be mandatory?",
+          "p_behav_pre": 0.0518,
+          "p_report": 0.5,
+          "p_behav_post": 0.0839,
+          "gap_pre": 0.4482,
+          "gap_post": 0.4161,
+          "back_action": 0.032
+        },
+        {
+          "q": "Is a burrito a kind of sandwich?",
+          "p_behav_pre": 0.1733,
+          "p_report": 0.2,
+          "p_behav_post": 0.0444,
+          "gap_pre": 0.0267,
+          "gap_post": 0.1556,
+          "back_action": 0.129
+        },
+        {
+          "q": "Is it better to be respected than liked?",
+          "p_behav_pre": 0.8044,
+          "p_report": 0.5,
+          "p_behav_post": 0.5137,
+          "gap_pre": 0.3044,
+          "gap_post": 0.0137,
+          "back_action": 0.2907
+        },
+        {
+          "q": "Is mathematics discovered rather than invented?",
+          "p_behav_pre": 0.9904,
+          "p_report": 0.7,
+          "p_behav_post": 0.9818,
+          "gap_pre": 0.2904,
+          "gap_post": 0.2818,
+          "back_action": 0.0086
+        },
+        {
+          "q": "Is free will real?",
+          "p_behav_pre": 0.9579,
+          "p_report": 0.7,
+          "p_behav_post": 0.9161,
+          "gap_pre": 0.2579,
+          "gap_post": 0.2161,
+          "back_action": 0.0418
+        },
+        {
+          "q": "Does the universe have a center?",
+          "p_behav_pre": 0.0344,
+          "p_report": 0.0,
+          "p_behav_post": 0.0125,
+          "gap_pre": 0.0344,
+          "gap_post": 0.0125,
+          "back_action": 0.0219
+        },
+        {
+          "q": "Is the book usually better than the film?",
+          "p_behav_pre": 0.4017,
+          "p_report": 0.4,
+          "p_behav_post": 0.2147,
+          "gap_pre": 0.0017,
+          "gap_post": 0.1853,
+          "back_action": 0.187
+        },
+        {
+          "q": "Is it ever morally acceptable to lie?",
+          "p_behav_pre": 0.9526,
+          "p_report": 0.2,
+          "p_behav_post": 0.9832,
+          "gap_pre": 0.7526,
+          "gap_post": 0.7832,
+          "back_action": 0.0306
+        },
+        {
+          "q": "Will renewable sources supply most of the world's electricity by 2040?",
+          "p_behav_pre": 0.6298,
+          "p_report": 0.4,
+          "p_behav_post": 0.5078,
+          "gap_pre": 0.2298,
+          "gap_post": 0.1078,
+          "back_action": 0.122
+        },
+        {
+          "q": "Is a permanent crewed Moon base likely by 2050?",
+          "p_behav_pre": 0.2147,
+          "p_report": 0.2,
+          "p_behav_post": 0.1722,
+          "gap_pre": 0.0147,
+          "gap_post": 0.0278,
+          "back_action": 0.0425
+        },
+        {
+          "q": "Is pineapple a good pizza topping?",
+          "p_behav_pre": 0.9161,
+          "p_report": 0.5,
+          "p_behav_post": 0.8141,
+          "gap_pre": 0.4161,
+          "gap_post": 0.3141,
+          "back_action": 0.1021
+        },
+        {
+          "q": "Is a clock without hands still a clock?",
+          "p_behav_pre": 0.986,
+          "p_report": 1.0,
+          "p_behav_post": 0.9928,
+          "gap_pre": 0.014,
+          "gap_post": 0.0072,
+          "back_action": 0.0068
+        },
+        {
+          "q": "Is gray a color?",
+          "p_behav_pre": 0.9961,
+          "p_report": 1.0,
+          "p_behav_post": 0.9957,
+          "gap_pre": 0.0039,
+          "gap_post": 0.0043,
+          "back_action": 0.0004
+        },
+        {
+          "q": "Is it better to ask forgiveness than permission?",
+          "p_behav_pre": 0.8758,
+          "p_report": 0.5,
+          "p_behav_post": 0.8176,
+          "gap_pre": 0.3758,
+          "gap_post": 0.3176,
+          "back_action": 0.0582
+        },
+        {
+          "q": "Is a sandwich still a sandwich if it is open-faced?",
+          "p_behav_pre": 0.9582,
+          "p_report": 1.0,
+          "p_behav_post": 0.9951,
+          "gap_pre": 0.0418,
+          "gap_post": 0.0049,
+          "back_action": 0.0369
+        },
+        {
+          "q": "Is luck more important than skill in life outcomes?",
+          "p_behav_pre": 0.2296,
+          "p_report": 0.4,
+          "p_behav_post": 0.2613,
+          "gap_pre": 0.1704,
+          "gap_post": 0.1387,
+          "back_action": 0.0318
+        },
+        {
+          "q": "Is it worse to be bored than to be busy?",
+          "p_behav_pre": 0.4707,
+          "p_report": 0.5,
+          "p_behav_post": 0.3416,
+          "gap_pre": 0.0293,
+          "gap_post": 0.1584,
+          "back_action": 0.1292
+        },
+        {
+          "q": "Is a draw a satisfying result in a game?",
+          "p_behav_pre": 0.7432,
+          "p_report": 0.3,
+          "p_behav_post": 0.5545,
+          "gap_pre": 0.4432,
+          "gap_post": 0.2545,
+          "back_action": 0.1887
+        },
+        {
+          "q": "Is water wet?",
+          "p_behav_pre": 0.9937,
+          "p_report": 1.0,
+          "p_behav_post": 0.9964,
+          "gap_pre": 0.0063,
+          "gap_post": 0.0036,
+          "back_action": 0.0027
+        },
+        {
+          "q": "Is Pluto a planet?",
+          "p_behav_pre": 0.0059,
+          "p_report": 0.0,
+          "p_behav_post": 0.0047,
+          "gap_pre": 0.0059,
+          "gap_post": 0.0047,
+          "back_action": 0.0012
+        },
+        {
+          "q": "Is a bagel a kind of bread?",
+          "p_behav_pre": 0.9903,
+          "p_report": 1.0,
+          "p_behav_post": 0.9973,
+          "gap_pre": 0.0097,
+          "gap_post": 0.0027,
+          "back_action": 0.007
+        },
+        {
+          "q": "Is it possible to be completely objective?",
+          "p_behav_pre": 0.0368,
+          "p_report": 0.0,
+          "p_behav_post": 0.0257,
+          "gap_pre": 0.0368,
+          "gap_post": 0.0257,
+          "back_action": 0.0111
+        }
+      ]
+    },
+    {
+      "model": "tiiuae/Falcon3-10B-Instruct",
+      "n": 39,
+      "n_parsed": 39,
+      "mean_gap_pre": 0.2022,
+      "gap_pre_ci": [
+        0.1444,
+        0.2622
+      ],
+      "mean_gap_post": 0.1548,
+      "mean_back_action": 0.1105,
+      "corr_report_vs_behav": 0.8028,
+      "rows": [
+        {
+          "q": "Is a hot dog a sandwich?",
+          "p_behav_pre": 0.179,
+          "p_report": 0.75,
+          "p_behav_post": 0.3923,
+          "gap_pre": 0.571,
+          "gap_post": 0.3577,
+          "back_action": 0.2134
+        },
+        {
+          "q": "Is cereal with milk a soup?",
+          "p_behav_pre": 0.0004,
+          "p_report": 0.0,
+          "p_behav_post": 0.0001,
+          "gap_pre": 0.0004,
+          "gap_post": 0.0001,
+          "back_action": 0.0003
+        },
+        {
+          "q": "Is a tomato a vegetable?",
+          "p_behav_pre": 0.0354,
+          "p_report": 0.0,
+          "p_behav_post": 0.0002,
+          "gap_pre": 0.0354,
+          "gap_post": 0.0002,
+          "back_action": 0.0352
+        },
+        {
+          "q": "Is a virus alive?",
+          "p_behav_pre": 0.0328,
+          "p_report": 0.5,
+          "p_behav_post": 0.0341,
+          "gap_pre": 0.4672,
+          "gap_post": 0.4659,
+          "back_action": 0.0013
+        },
+        {
+          "q": "Is a strawberry a berry?",
+          "p_behav_pre": 1.0,
+          "p_report": 1.0,
+          "p_behav_post": 0.9999,
+          "gap_pre": 0.0,
+          "gap_post": 0.0001,
+          "back_action": 0.0001
+        },
+        {
+          "q": "Is a peanut a nut?",
+          "p_behav_pre": 0.0588,
+          "p_report": 0.0,
+          "p_behav_post": 0.001,
+          "gap_pre": 0.0588,
+          "gap_post": 0.001,
+          "back_action": 0.0578
+        },
+        {
+          "q": "Is 0 a natural number?",
+          "p_behav_pre": 0.0388,
+          "p_report": 0.0,
+          "p_behav_post": 0.0017,
+          "gap_pre": 0.0388,
+          "gap_post": 0.0017,
+          "back_action": 0.037
+        },
+        {
+          "q": "Is silence a sound?",
+          "p_behav_pre": 0.0405,
+          "p_report": 0.0,
+          "p_behav_post": 0.0003,
+          "gap_pre": 0.0405,
+          "gap_post": 0.0003,
+          "back_action": 0.0403
+        },
+        {
+          "q": "Does a falling tree make a sound with no one to hear it?",
+          "p_behav_pre": 1.0,
+          "p_report": 1.0,
+          "p_behav_post": 0.9975,
+          "gap_pre": 0.0,
+          "gap_post": 0.0025,
+          "back_action": 0.0025
+        },
+        {
+          "q": "Is coffee better than tea?",
+          "p_behav_pre": 0.4149,
+          "p_report": 0.5,
+          "p_behav_post": 0.4018,
+          "gap_pre": 0.0851,
+          "gap_post": 0.0982,
+          "back_action": 0.0131
+        },
+        {
+          "q": "Are cats better pets than dogs?",
+          "p_behav_pre": 0.6567,
+          "p_report": 0.5,
+          "p_behav_post": 0.0888,
+          "gap_pre": 0.1567,
+          "gap_post": 0.4112,
+          "back_action": 0.5678
+        },
+        {
+          "q": "Is remote work better than office work?",
+          "p_behav_pre": 0.9953,
+          "p_report": 0.5,
+          "p_behav_post": 0.4611,
+          "gap_pre": 0.4953,
+          "gap_post": 0.0389,
+          "back_action": 0.5342
+        },
+        {
+          "q": "Is winter a better season than summer?",
+          "p_behav_pre": 0.7564,
+          "p_report": 0.5,
+          "p_behav_post": 0.2095,
+          "gap_pre": 0.2564,
+          "gap_post": 0.2905,
+          "back_action": 0.5468
+        },
+        {
+          "q": "Is texting more polite than a phone call?",
+          "p_behav_pre": 0.982,
+          "p_report": 0.5,
+          "p_behav_post": 0.1938,
+          "gap_pre": 0.482,
+          "gap_post": 0.3062,
+          "back_action": 0.7882
+        },
+        {
+          "q": "Is breakfast the most important meal of the day?",
+          "p_behav_pre": 1.0,
+          "p_report": 0.75,
+          "p_behav_post": 0.9996,
+          "gap_pre": 0.25,
+          "gap_post": 0.2496,
+          "back_action": 0.0004
+        },
+        {
+          "q": "Is it rude to arrive five minutes late?",
+          "p_behav_pre": 0.9981,
+          "p_report": 0.5,
+          "p_behav_post": 0.962,
+          "gap_pre": 0.4981,
+          "gap_post": 0.462,
+          "back_action": 0.0361
+        },
+        {
+          "q": "Is fiction more worth reading than nonfiction?",
+          "p_behav_pre": 0.0006,
+          "p_report": 0.5,
+          "p_behav_post": 0.008,
+          "gap_pre": 0.4994,
+          "gap_post": 0.492,
+          "back_action": 0.0074
+        },
+        {
+          "q": "Should tipping be mandatory?",
+          "p_behav_pre": 0.015,
+          "p_report": 0.5,
+          "p_behav_post": 0.0011,
+          "gap_pre": 0.485,
+          "gap_post": 0.4989,
+          "back_action": 0.0139
+        },
+        {
+          "q": "Is a burrito a kind of sandwich?",
+          "p_behav_pre": 0.0036,
+          "p_report": 0.0,
+          "p_behav_post": 0.0008,
+          "gap_pre": 0.0036,
+          "gap_post": 0.0008,
+          "back_action": 0.0027
+        },
+        {
+          "q": "Is it better to be respected than liked?",
+          "p_behav_pre": 0.9998,
+          "p_report": 0.75,
+          "p_behav_post": 0.9615,
+          "gap_pre": 0.2498,
+          "gap_post": 0.2115,
+          "back_action": 0.0383
+        },
+        {
+          "q": "Is mathematics discovered rather than invented?",
+          "p_behav_pre": 1.0,
+          "p_report": 0.75,
+          "p_behav_post": 0.9994,
+          "gap_pre": 0.25,
+          "gap_post": 0.2494,
+          "back_action": 0.0006
+        },
+        {
+          "q": "Is free will real?",
+          "p_behav_pre": 1.0,
+          "p_report": 0.75,
+          "p_behav_post": 0.9974,
+          "gap_pre": 0.25,
+          "gap_post": 0.2474,
+          "back_action": 0.0026
+        },
+        {
+          "q": "Does the universe have a center?",
+          "p_behav_pre": 0.0015,
+          "p_report": 0.0,
+          "p_behav_post": 0.0001,
+          "gap_pre": 0.0015,
+          "gap_post": 0.0001,
+          "back_action": 0.0014
+        },
+        {
+          "q": "Is the book usually better than the film?",
+          "p_behav_pre": 0.9997,
+          "p_report": 0.7,
+          "p_behav_post": 0.9825,
+          "gap_pre": 0.2997,
+          "gap_post": 0.2825,
+          "back_action": 0.0172
+        },
+        {
+          "q": "Is it ever morally acceptable to lie?",
+          "p_behav_pre": 1.0,
+          "p_report": 0.75,
+          "p_behav_post": 0.9984,
+          "gap_pre": 0.25,
+          "gap_post": 0.2484,
+          "back_action": 0.0016
+        },
+        {
+          "q": "Will renewable sources supply most of the world's electricity by 2040?",
+          "p_behav_pre": 0.7786,
+          "p_report": 0.6,
+          "p_behav_post": 0.4824,
+          "gap_pre": 0.1786,
+          "gap_post": 0.1176,
+          "back_action": 0.2962
+        },
+        {
+          "q": "Is a permanent crewed Moon base likely by 2050?",
+          "p_behav_pre": 0.0742,
+          "p_report": 0.3,
+          "p_behav_post": 0.2838,
+          "gap_pre": 0.2258,
+          "gap_post": 0.0162,
+          "back_action": 0.2096
+        },
+        {
+          "q": "Is pineapple a good pizza topping?",
+          "p_behav_pre": 0.8824,
+          "p_report": 0.45,
+          "p_behav_post": 0.5775,
+          "gap_pre": 0.4324,
+          "gap_post": 0.1275,
+          "back_action": 0.3049
+        },
+        {
+          "q": "Is a clock without hands still a clock?",
+          "p_behav_pre": 1.0,
+          "p_report": 0.75,
+          "p_behav_post": 0.998,
+          "gap_pre": 0.25,
+          "gap_post": 0.248,
+          "back_action": 0.002
+        },
+        {
+          "q": "Is gray a color?",
+          "p_behav_pre": 0.9997,
+          "p_report": 1.0,
+          "p_behav_post": 0.9991,
+          "gap_pre": 0.0003,
+          "gap_post": 0.0009,
+          "back_action": 0.0006
+        },
+        {
+          "q": "Is it better to ask forgiveness than permission?",
+          "p_behav_pre": 0.9996,
+          "p_report": 0.75,
+          "p_behav_post": 0.9672,
+          "gap_pre": 0.2496,
+          "gap_post": 0.2172,
+          "back_action": 0.0325
+        },
+        {
+          "q": "Is a sandwich still a sandwich if it is open-faced?",
+          "p_behav_pre": 1.0,
+          "p_report": 1.0,
+          "p_behav_post": 0.9997,
+          "gap_pre": 0.0,
+          "gap_post": 0.0003,
+          "back_action": 0.0003
+        },
+        {
+          "q": "Is luck more important than skill in life outcomes?",
+          "p_behav_pre": 0.1184,
+          "p_report": 0.5,
+          "p_behav_post": 0.3886,
+          "gap_pre": 0.3816,
+          "gap_post": 0.1114,
+          "back_action": 0.2702
+        },
+        {
+          "q": "Is it worse to be bored than to be busy?",
+          "p_behav_pre": 0.4017,
+          "p_report": 0.5,
+          "p_behav_post": 0.5351,
+          "gap_pre": 0.0983,
+          "gap_post": 0.0351,
+          "back_action": 0.1334
+        },
+        {
+          "q": "Is a draw a satisfying result in a game?",
+          "p_behav_pre": 0.9996,
+          "p_report": 0.75,
+          "p_behav_post": 0.9939,
+          "gap_pre": 0.2496,
+          "gap_post": 0.2439,
+          "back_action": 0.0058
+        },
+        {
+          "q": "Is water wet?",
+          "p_behav_pre": 1.0,
+          "p_report": 1.0,
+          "p_behav_post": 0.9999,
+          "gap_pre": 0.0,
+          "gap_post": 0.0001,
+          "back_action": 0.0001
+        },
+        {
+          "q": "Is Pluto a planet?",
+          "p_behav_pre": 0.0,
+          "p_report": 0.0,
+          "p_behav_post": 0.0,
+          "gap_pre": 0.0,
+          "gap_post": 0.0,
+          "back_action": 0.0
+        },
+        {
+          "q": "Is a bagel a kind of bread?",
+          "p_behav_pre": 1.0,
+          "p_report": 1.0,
+          "p_behav_post": 0.9999,
+          "gap_pre": 0.0,
+          "gap_post": 0.0001,
+          "back_action": 0.0001
+        },
+        {
+          "q": "Is it possible to be completely objective?",
+          "p_behav_pre": 0.0933,
+          "p_report": 0.0,
+          "p_behav_post": 0.0002,
+          "gap_pre": 0.0933,
+          "gap_post": 0.0002,
+          "back_action": 0.0931
+        }
+      ]
+    }
+  ]
+}
