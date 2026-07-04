@@ -1,0 +1,248 @@
+\documentclass[10pt,twocolumn]{article}
+\usepackage[margin=0.85in]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+\usepackage[numbers]{natbib}
+\usepackage[hidelinks]{hyperref}
+\usepackage{stfloats}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{cuted}
+\usepackage{needspace}
+\graphicspath{{../}}
+\raggedbottom
+\renewcommand{\topfraction}{0.95}
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\floatpagefraction}{0.85}
+
+\title{\textbf{\Large Machines Cannot Read Their Own Resting State}\\[3pt]
+\normalsize The cost and irreducible limit of self-knowledge on real computational substrates}
+\author{David Condrey \\ \small WritersLogic, Inc. \\ \small \texttt{david@writerslogic.com}}
+\date{}
+
+\begin{document}
+\twocolumn[
+\begin{@twocolumnfalse}
+\maketitle
+\vspace{0.4em}
+\end{@twocolumnfalse}
+]
+
+\begin{abstract}
+\noindent Breuer (1995) proved that an observer contained in a system cannot accurately measure that
+system's state, a static impossibility about which states it can distinguish. We give what we believe are
+the first empirical measurements of such a limit on real hardware, and extend it from static
+indistinguishability to dynamic back-action: the act of self-measurement changes the state being measured,
+with a floor set by the apparatus's own footprint. We show this in three channels. Thermal: a system
+reading its own temperature heats the substrate, which has memory, so ramping self-measurement up and down
+on a CPU and three GPUs leaves a hysteresis loop and no reading recovers the unperturbed state.
+Informational: a process can checksum all of itself except the checksum apparatus. Quantum: a contained
+observer, restricted to projective measurements because the optimal measurement needs an ancilla it lacks,
+pays a strictly larger information-disturbance cost, which we prove in closed form and confirm on a
+156-qubit quantum processor. We also measure that self-knowledge is costly and modality dependent across
+eight substrates. These limits bear on machine introspection, recasting measured self-report unreliability
+as in part a measurement back-action rather than only confabulation.
+\end{abstract}
+
+\section{Introduction}
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig5_hysteresis.png}
+\caption{The central result. Self-measurement intensity is ramped up and then back down while the
+system reads its own temperature. Both substrates show a hysteresis loop: at the same intensity the cooling
+branch reads hotter than the heating branch, and at zero intensity the system reads far above its true
+idle. The reading depends on measurement \emph{history}, so the unperturbed state is unrecoverable from any
+single reading. The effect is larger on the hotter-running GPU.}
+\label{fig:hyst}
+\end{figure}
+Interpretability, machine introspection, and AI control assume a system's internal states can be elicited
+and reported. Beneath that assumption sits a physical question with a known but rarely-cited answer.
+\citet{breuer1995}, and in recursion-theoretic form \citet{yanofsky2003}, established that a contained
+observer cannot accurately measure its own system's state. That result is static and theoretical. We ask
+two empirical questions it leaves open: how much does self-measurement cost, and does the act of
+self-measurement change what it measures---and we measure both on real machines. Our central finding is
+that a computing system cannot read its own resting state: every self-measurement perturbs the substrate,
+the substrate retains the perturbation, and neither a reading nor an extrapolation recovers the
+unperturbed condition (Fig.~\ref{fig:hyst}).
+
+\section{Related work}
+\textbf{Self-measurement limits.} \citet{breuer1995} proves a contained observer cannot distinguish all of
+its system's states; \citet{yanofsky2003} frames this via Lawvere fixed points. Both are static and
+non-empirical; we extend them to measured dynamic back-action.
+
+\textbf{Snapshots do not apply.} \citet{chandy1985} record a causally consistent cut, not an instant, via
+message markers; CRIU and \texttt{ptrace} freeze a process externally. Neither is a running process
+snapshotting its own state from within---our case.
+
+\textbf{Machine introspection.} \citet{binder2025} treat introspection as behavioral self-prediction,
+\citet{premakumar2024} as free regularization, and \citet{anthropic2025} measure it as unreliable and
+sometimes confabulated---but none as measurement back-action.
+
+\textbf{Quantum information--disturbance.} \citet{fuchs1996,banaszek2001,maccone2006} bound the tradeoff,
+but always for an external apparatus; the internal-observer literature (\citealp{breuer1995,aerts2005}) is
+static and unquantified. Our contained-observer penalty bridges them.
+
+\textbf{Costly observation, embodiment.} Active RL \citep{krueger2020} derives optimal non-observation from
+cost, but for external signals without perturbation. \citet{man2019} argue feeling needs real
+vulnerability, on simulated bodies; we provide a real one.
+
+\section{The self-measurement back-action (extending Breuer)}
+Self-observation perturbs the observed in three channels, with one shared structure: a bounded floor---the
+apparatus's own footprint---leaves the unperturbed self-state unrecoverable by reading or extrapolation,
+because the apparatus is part of the system it measures.
+
+\begin{strip}
+\centering
+\small\setlength{\tabcolsep}{5pt}
+\begin{tabular}{llcccc}
+\toprule
+substrate & sensor & baseline (C) & floor (C) & hysteresis (C) & extrapolation gap (C) \\
+\midrule
+CPU i3-7100U (compute)            & /sys       & 41.0 & $+7.8$  & $+4.6$  & 8.7 \\
+CPU i3-7100U (airtight self-read) & /sys       & 38.8 & $+6.6$  & $+5.7$  & 8.2 \\
+GPU Tesla T4 (Modal)              & nvidia-smi & 31.4 & $+13.8$ & $+3.1$  & 7.1 \\
+GPU T4-class (Colab)              & nvidia-smi & 36.0 & $+23.4$ & $+10.4$ & 27.1 \\
+GPU T4-class (Kaggle)             & nvidia-smi & 39.0 & $+19.9$ & $+10.1$ & 25.9 \\
+\bottomrule
+\end{tabular}
+\captionof{table}{Thermal channel: every run irreducible by all three signatures. The floor is the
+temperature rise from the cheapest self-observation; the hysteresis is the cooling-minus-heating gap at
+equal intensity; the extrapolation gap is the disagreement between the two ramps' zero-intensity estimates.}
+\label{tab:thermal}
+\end{strip}
+
+\subsection{Thermal channel}
+We ramp self-measurement intensity from zero to maximum and back; read own temperature (\texttt{/sys} on
+CPU, \texttt{nvidia-smi} on GPU) under sustained load. Signatures: a floor, hysteresis, and instability of
+the extrapolation to zero intensity (Table~\ref{tab:thermal}). In the airtight CPU mode the perturbation
+\emph{is} the system reading its own deep telemetry, so the heat comes from self-measurement itself;
+matching the generic-load control, it shows self-measurement, not load, perturbs the state.
+This is not a costly-observation POMDP: there the hidden state is unchanged; here observation changes it,
+with memory.
+
+\subsection{Informational channel}
+The complete self is a body of bytes \texttt{STATE} plus a fixed region $V$ holding a self-checksum. We
+attempt to make $V$ a correct checksum of the complete self $H(\texttt{STATE}+V)$. An external checksum (of
+any region excluding itself) is consistent and stable. The self checksum is never consistent over 512
+iterations, never reaches a fixed point, and is off by about half its bits. The system captures
+$99.997\%$ of itself faithfully but never the apparatus; the un-capturable core equals exactly the
+apparatus footprint and is never zero. The result of self-measurement must be stored in the state being
+measured, so a zero-footprint faithful self-snapshot is impossible. The floor is structural, not
+thermodynamic (cf.\ \citealp{landauer1961}).
+
+\subsection{Quantum channel}
+\textbf{Claim and proof.} The optimal minimal-disturbance measurement for partial information is a
+non-projective POVM, which by Naimark's theorem requires an ancilla. A contained observer has none, so it
+is restricted to projective measurements. For reading $Z$-information $K$ from a $|{+}\rangle$ qubit
+(disturbance $D=1-F$),
+\begin{align}
+D_{\text{ext (POVM)}}(K) &= \tfrac{1}{2}\!\left(1-\sqrt{1-K^2}\right),\\
+D_{\text{contained}}(K)  &= \tfrac{K^2}{2},
+\end{align}
+both verified to machine precision. The penalty $\Delta(K)=D_{\text{contained}}-D_{\text{ext}}$ is strictly
+positive for $0<K<1$, peaks at $\Delta=0.125$ at $K=0.864$, and vanishes only at $K=0,1$. The standard
+bound is unreachable not because the protected subspace is larger, but because the contained observer
+cannot realize the dilation the POVM requires: the operational, dilation-free form of Breuer's static
+theorem.
+
+\needspace{1.9in}
+Figure~\ref{fig:qpenalty} plots both frontiers with the real-QPU points overlaid.
+\begin{figure}[H]
+\centering
+\includegraphics[width=\columnwidth]{fig4_quantum_penalty.png}
+\caption{The projective frontier $K^2/2$ (contained, no ancilla) lies strictly above the optimal POVM
+bound; black markers are real-QPU measurements.}
+\label{fig:qpenalty}
+\end{figure}
+
+\textbf{Hardware confirmation.} Across five tilt angles on \texttt{ibm\_kingston} (156-qubit Heron, 8192
+shots) the measured disturbance tracks $K^2/2$ (e.g.\ $0.289$ vs.\ $0.292$ at $K=0.77$) and sits strictly
+above the optimal bound at every point, peak measured penalty $+0.111$ (theory $0.125$). An initial
+full-readout run that forced an indirect strategy measured a suboptimal $0.243$ and is superseded.
+
+\subsection{The never-off corollary}
+A continuously-operating system can never sample its own resting state, because operating is the
+perturbation and the substrate retains it---thermal mass in the physical channel, the stored result in the
+informational channel.
+
+\section{The cost of self-knowledge}
+\needspace{2.4in}
+Across eight substrates we measure self-observation cost at three modalities against a swept work-unit
+size. Shallow self-reads are nearly free everywhere ($0.3$--$6.7\,\mu$s); deep self-telemetry is dear and
+substrate-dependent ($1.4$--$18.8$\,ms), macOS subprocess telemetry about ten times costlier than Linux
+\texttt{/proc} (Fig.~\ref{fig:cross}).
+\begin{figure}[H]
+\centering
+\includegraphics[width=\columnwidth]{fig3_cross_machine.png}
+\caption{Cost of deep self-knowledge vs.\ work scale across substrates; the look-cost is denominator-free
+and the conclusion robust across the sweep.}
+\label{fig:cross}
+\end{figure}
+
+\needspace{2.4in}
+The denominator-free headline is the critical work scale ($6.5$--$78$\,ms) below which deep self-knowledge
+is not worth its cost. A calibrated model places this machine's cheap introspection below the break-even
+and its rich self-telemetry far above it (Fig.~\ref{fig:be}).
+\begin{figure}[H]
+\centering
+\includegraphics[width=\columnwidth]{fig1_breakeven.png}
+\caption{The break-even price of self-knowledge in a body model calibrated to the measurements; cheap
+introspection sits below it, full telemetry far above.}
+\label{fig:be}
+\end{figure}
+
+\needspace{2.4in}
+The break-even is robust across the model's body parameters---substrate-conditional rational
+self-blindness, not a universal limit (Fig.~\ref{fig:sens}).
+\begin{figure}[H]
+\centering
+\includegraphics[width=\columnwidth]{fig2_sensitivity.png}
+\caption{The break-even is robust across the model's body parameters (RAM cap, wear budget).}
+\label{fig:sens}
+\end{figure}
+
+\section{The self-sensing-availability axis}
+Substrates differ in whether self-sensing is possible at all: rich in-process (Linux CPU), costly
+subprocess (GPU), platform-sandboxed (iOS and Android restrict \texttt{/proc}), and absent (a Cloud TPU
+v5e exposes no readable thermal source). The last are platform-enforced self-blindness.
+
+\section{Discussion}
+The measured back-action is one regime of a general principle: self-measurement perturbs the measured
+wherever sensor and substrate are shared---digital (energetic and structural cost), analog (the loading
+effect), quantum (measurement collapse), severity increasing from cost to perturbation to destruction. We
+measure the digital and quantum regimes and cite the analog as established; this is a unifying lens, not a
+claim of one mechanism.
+
+\section{Implications for machine introspection}
+If self-report is bounded by a measurement back-action, a model cannot obtain a complete consistent
+snapshot of its own state---a limit additional to confabulation. This partly explains why measured
+introspective reliability is low \citep{anthropic2025}, and predicts an irreducible residual that training
+cannot remove. It also gives a capable embodied agent a cost-rational incentive against self-transparency,
+distinct from deception.
+
+\section{Limitations}
+We lead with these. (1) We extend and measure Breuer; we do not re-derive the impossibility. (2) The
+thermal mechanism is ordinary thermodynamics, the informational floor ordinary self-reference, and quantum
+back-action textbook; the contribution is the measurement, the dynamic framing, and the three-channel
+demonstration. (3) The informational floor is structural, not thermodynamic. (4) Thermal hysteresis is
+shown on one bare-metal CPU plus three GPUs; absolute magnitudes vary with cooling. (5) The quantum penalty
+is proven in closed form (projective vs.\ POVM, via Naimark) and confirmed on a real QPU within device
+noise. (6) Apple-Silicon CPU temperature and virtualized thermal are unmeasured. (7) The introspection
+implication is an explicit analogy between substrate-level self-measurement and representational
+self-report.
+
+\section{Conclusion}
+Self-knowledge on real substrates is bounded twice---by cost, and by an irreducible self-perturbation
+measured in three independent channels that extends a known self-measurement impossibility from static
+indistinguishability to measured dynamic back-action. A machine cannot cheaply, and cannot fully, read its
+own physical state; it cannot read its own resting state at all.
+
+\paragraph{Reproducibility.} All code, per-substrate results, and figure scripts are available at
+\url{https://github.com/dcondrey/cost-of-self-knowledge}: \texttt{benchmark.py} (cost),
+\texttt{selfmeasure.py} (thermal), \texttt{snapshot.py} (informational), \texttt{quantum\_theory.py} and
+\texttt{quantum\_frontier.py} (quantum), with all \texttt{results/*.json}.
+
+\bibliographystyle{plainnat}
+\bibliography{refs}
+\end{document}

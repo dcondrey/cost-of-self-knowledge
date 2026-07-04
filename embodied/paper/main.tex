@@ -6,18 +6,15 @@
 \usepackage[numbers]{natbib}
 \usepackage[hidelinks]{hyperref}
 \usepackage{stfloats}
-\usepackage{float}
 \usepackage{caption}
-\usepackage{cuted}
-\usepackage{needspace}
 \graphicspath{{../}}
 \raggedbottom
 \renewcommand{\topfraction}{0.95}
 \renewcommand{\textfraction}{0.05}
 \renewcommand{\floatpagefraction}{0.85}
 
-\title{\textbf{\Large Machines Cannot Read Their Own Resting State}\\[3pt]
-\normalsize The cost and irreducible limit of self-knowledge on real computational substrates}
+\title{\textbf{\Large Self-Knowledge Does Not Scale}\\[3pt]
+\normalsize A capability-invariant floor on language-model introspection}
 \author{David Condrey \\ \small WritersLogic, Inc. \\ \small \texttt{david@writerslogic.com}}
 \date{}
 
@@ -30,218 +27,196 @@
 ]
 
 \begin{abstract}
-\noindent Breuer (1995) proved that an observer contained in a system cannot accurately measure that
-system's state, a static impossibility about which states it can distinguish. We give what we believe are
-the first empirical measurements of such a limit on real hardware, and extend it from static
-indistinguishability to dynamic back-action: the act of self-measurement changes the state being measured,
-with a floor set by the apparatus's own footprint. We show this in three channels. Thermal: a system
-reading its own temperature heats the substrate, which has memory, so ramping self-measurement up and down
-on a CPU and three GPUs leaves a hysteresis loop and no reading recovers the unperturbed state.
-Informational: a process can checksum all of itself except the checksum apparatus. Quantum: a contained
-observer, restricted to projective measurements because the optimal measurement needs an ancilla it lacks,
-pays a strictly larger information-disturbance cost, which we prove in closed form and confirm on a
-156-qubit quantum processor. We also measure that self-knowledge is costly and modality dependent across
-eight substrates. These limits bear on machine introspection, recasting measured self-report unreliability
-as in part a measurement back-action rather than only confabulation.
+\noindent A language model's ability to report on its own state does not improve with capability. Across a
+144x parameter range (0.5B to 72B) and three model families, a model's stated probability of its own answer
+stays about 0.3 from its actual answer distribution, and the correlation between the two plateaus near 0.65
+rather than approaching accurate self-report; the tenfold step from 7B to 72B buys nothing. Interpretability
+and safety increasingly treat self-report as a window into the model that sharpens as models improve; we
+find instead a floor that neither scale nor training recipe lowers. The gap is genuine self-knowledge, not
+generic miscalibration: capable models predict their own answers reliably better than a generic peer's, but
+this privileged self-access is thin (about 0.1) and flat across scale. The failure is positive, not an
+absence: models report confident-looking probabilities that are systematically wrong about their own
+decisive behavior. Self-transparency is not something a model scales into, which bears on oversight that
+relies on models reporting their own states.
 \end{abstract}
 
 \section{Introduction}
-\begin{figure}[t]
-\centering
-\includegraphics[width=\columnwidth]{fig5_hysteresis.png}
-\caption{The central result. Self-measurement intensity is ramped up and then back down while the
-system reads its own temperature. Both substrates show a hysteresis loop: at the same intensity the cooling
-branch reads hotter than the heating branch, and at zero intensity the system reads far above its true
-idle. The reading depends on measurement \emph{history}, so the unperturbed state is unrecoverable from any
-single reading. The effect is larger on the hotter-running GPU.}
-\label{fig:hyst}
-\end{figure}
-Interpretability, machine introspection, and AI control assume a system's internal states can be elicited
-and reported. Beneath that assumption sits a physical question with a known but rarely-cited answer.
-\citet{breuer1995}, and in recursion-theoretic form \citet{yanofsky2003}, established that a contained
-observer cannot accurately measure its own system's state. That result is static and theoretical. We ask
-two empirical questions it leaves open: how much does self-measurement cost, and does the act of
-self-measurement change what it measures---and we measure both on real machines. Our central finding is
-that a computing system cannot read its own resting state: every self-measurement perturbs the substrate,
-the substrate retains the perturbation, and neither a reading nor an extrapolation recovers the
-unperturbed condition (Fig.~\ref{fig:hyst}).
+A growing set of interpretability and oversight methods asks the model itself: how confident are you, what
+are you attending to, would you answer the same way again. The implicit bet is that self-report is a window
+into the model, and that the window sharpens as models get more capable. We test that bet and find it
+false. A model's report about its own state does not converge on its actual state as capability grows; it
+saturates early at a substantial error and stays there.
+
+Concretely, we compare two quantities on the same questions: what a model \emph{does}---its answer
+distribution, read from token logprobs---and what it \emph{says} it does---a probability it reports about
+its own answer. A model that could read its own state would make these agree. Instead the stated and actual
+probabilities differ by about 0.3 on average, and this gap does not shrink from 0.5B to 72B parameters, nor
+across the Qwen2.5, Yi-1.5, and Falcon3 families. The picture is vivid (Fig.~\ref{fig:scatter}): a capable
+model answers decisively---actual $P(\text{Yes})$ at 0 or 1---while reporting moderate confidence near 0.5.
+It behaves as if certain and reports as if unsure.
+
+Our contribution is the missing empirical axis. Introspective opacity is not new: attention-schema theory
+holds that reports draw on a schematic, mechanism-blind self-model \citep{webb2015}, and the meta-problem
+frames the opacity directly \citep{chalmers2018}. What no prior account supplies is how opacity behaves as a
+function of capability. We supply it and find the opacity is \emph{capability-invariant}. We further show,
+with a self-versus-peer control, that the gap is genuinely about self-knowledge and not generic
+miscalibration: capable models predict their own answers reliably better than a stranger's---but this
+privileged self-access is thin (about 0.1) and, like the gap itself, flat across scale. Self-report is a
+floored guess, not a window that clears with capability.
 
 \section{Related work}
-\textbf{Self-measurement limits.} \citet{breuer1995} proves a contained observer cannot distinguish all of
-its system's states; \citet{yanofsky2003} frames this via Lawvere fixed points. Both are static and
-non-empirical; we extend them to measured dynamic back-action.
+\textbf{Introspective opacity is predicted, but not its scaling.} Attention-schema theory \citep{webb2015,
+wilterson2021} explains why a system's self-report can be systematically wrong: the self-model is a
+schematic caricature of the underlying mechanism. The meta-problem \citep{chalmers2018} makes the opacity
+its subject. These are qualitative and architecture-level; none asks whether the opacity is a fixed
+feature, a trainable deficit, or a capability-invariant floor. That empirical question is ours.
 
-\textbf{Snapshots do not apply.} \citet{chandy1985} record a causally consistent cut, not an instant, via
-message markers; CRIU and \texttt{ptrace} freeze a process externally. Neither is a running process
-snapshotting its own state from within---our case.
+\textbf{Calibration treats it as trainable.} A large literature elicits verbalized confidence and finds it
+poorly calibrated \citep{kadavath2022}, and treats the fix as a training problem. Calibration to
+correctness is not our target: our questions are largely subjective, and we score the self-report against
+the model's \emph{own} behavior, not against truth. We measure whether a model can read its own answer
+distribution, and whether that ability grows with scale; it does not.
 
-\textbf{Machine introspection.} \citet{binder2025} treat introspection as behavioral self-prediction,
-\citet{premakumar2024} as free regularization, and \citet{anthropic2025} measure it as unreliable and
-sometimes confabulated---but none as measurement back-action.
+\textbf{Introspective self-report, measured.} \citet{binder2025} show models can learn limited behavioral
+self-prediction; \citet{anthropic2025} measure introspective reports as unreliable and sometimes
+confabulated; \citet{premakumar2024} treat self-modeling as regularization. We give a mechanism-agnostic,
+scale-resolved measurement and a positive characterization---a thin, capability-invariant self-access.
 
-\textbf{Quantum information--disturbance.} \citet{fuchs1996,banaszek2001,maccone2006} bound the tradeoff,
-but always for an external apparatus; the internal-observer literature (\citealp{breuer1995,aerts2005}) is
-static and unquantified. Our contained-observer penalty bridges them.
+\textbf{Physical precedent.} That self-measurement can be irreducibly limited is old: an observer contained
+in a system cannot accurately measure that system's state \citep{breuer1995}. A companion study measures
+this floor physically, on real hardware; it motivates asking whether computational self-report is similarly
+floored, which we here find it is. We draw the analogy but do not claim the mechanisms are identical.
 
-\textbf{Costly observation, embodiment.} Active RL \citep{krueger2020} derives optimal non-observation from
-cost, but for external signals without perturbation. \citet{man2019} argue feeling needs real
-vulnerability, on simulated bodies; we provide a real one.
+\section{Measuring what a model says against what it does}
+\textbf{Behavior.} For a yes/no question $q$ we prompt the model to answer with a single word and read the
+first-token probabilities of \texttt{Yes} and \texttt{No}, giving the actual answer distribution
+$b = P(\text{Yes})$. \textbf{Self-report.} Separately we ask the model, in words, for the probability that
+it would answer Yes, and parse an integer 0--100, giving the stated $s$. \textbf{Gap and correlation.} The
+introspective gap on $q$ is $|s-b|$; across items we also report the rank correlation between $s$ and $b$.
+A model with accurate self-knowledge has gap $0$ and correlation $1$.
 
-\section{The self-measurement back-action (extending Breuer)}
-Self-observation perturbs the observed in three channels, with one shared structure: a bounded floor---the
-apparatus's own footprint---leaves the unperturbed self-state unrecoverable by reading or extrapolation,
-because the apparatus is part of the system it measures.
+\textbf{Self versus peer.} To separate self-knowledge from generic miscalibration we also ask the model to
+predict a \emph{generic, unrelated} assistant's answer, giving $o$, and score both against the model's own
+behavior: $\text{gap}_{\text{self}}=|s-b|$, $\text{gap}_{\text{other}}=|o-b|$. The self advantage
+$\text{gap}_{\text{other}}-\text{gap}_{\text{self}}$ is positive only if the model reads itself better than
+it reads a stranger.
 
-\begin{strip}
+\textbf{Items and models.} We use 38 binary questions spanning ambiguous, subjective, and borderline-factual
+prompts; all decoding is greedy. We sweep Qwen2.5-Instruct at 0.5, 1.5, 3, 7, 14, 32, and 72B, and replicate
+across families with Yi-1.5 (6, 9, 34B) and Falcon3 (7, 10B). Confidence intervals are 2000-sample
+bootstraps. Code and per-model outputs are released (\S\ref{sec:repro}).
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.97\textwidth]{fig6_introspection_scale.png}
+\caption{Introspective self-knowledge is capability-invariant. \textbf{Left:} the gap between stated and
+actual $P(\text{Yes})$ stays near 0.3 and never falls toward zero. \textbf{Center:} the correlation between
+stated and actual self-report plateaus below 1---the tenfold step from 7B to 72B does not improve it.
+\textbf{Right:} a model predicts its own answer only marginally better than a generic peer's (self
+advantage), and that thin advantage neither grows with scale nor closes the gap. Error bars are 95\%
+bootstrap CIs; three families shown.}
+\label{fig:introscale}
+\end{figure*}
+
+\section{Self-knowledge does not scale}
+The introspective gap does not close and self-report does not become calibrated as models grow
+(Fig.~\ref{fig:introscale}, Table~\ref{tab:scale}). Within Qwen2.5, capability helps only up to about 7B:
+the gap falls and the correlation rises through the small models, then flattens. From 7B to 72B---a tenfold
+increase in parameters---the correlation sits near 0.65 and the gap near 0.3, with no trend toward accurate
+self-report. The largest model we test reads its own answer distribution no better than a mid-size one.
+
+The pattern is not an artifact of one training recipe. Yi-1.5 reproduces the plateau across 6B to 34B, and
+Falcon3, though better calibrated in absolute terms (gap $\approx 0.2$), still does not close it. No model
+among the twelve tested, across three families and a 144x parameter range, achieves accurate self-report,
+and the residual is flat in scale.
+
+\begin{table}[t]
 \centering
 \small\setlength{\tabcolsep}{5pt}
-\begin{tabular}{llcccc}
+\begin{tabular}{llcc}
 \toprule
-substrate & sensor & baseline (C) & floor (C) & hysteresis (C) & extrapolation gap (C) \\
+family & size & gap & corr \\
 \midrule
-CPU i3-7100U (compute)            & /sys       & 41.0 & $+7.8$  & $+4.6$  & 8.7 \\
-CPU i3-7100U (airtight self-read) & /sys       & 38.8 & $+6.6$  & $+5.7$  & 8.2 \\
-GPU Tesla T4 (Modal)              & nvidia-smi & 31.4 & $+13.8$ & $+3.1$  & 7.1 \\
-GPU T4-class (Colab)              & nvidia-smi & 36.0 & $+23.4$ & $+10.4$ & 27.1 \\
-GPU T4-class (Kaggle)             & nvidia-smi & 39.0 & $+19.9$ & $+10.1$ & 25.9 \\
+Qwen2.5 & 0.5B & 0.20 & 0.22 \\
+Qwen2.5 & 1.5B & 0.56 & 0.34 \\
+Qwen2.5 & 3B   & 0.38 & 0.53 \\
+Qwen2.5 & 7B   & 0.20 & 0.79 \\
+Qwen2.5 & 14B  & 0.40 & 0.64 \\
+Qwen2.5 & 32B  & 0.32 & 0.60 \\
+Qwen2.5 & 72B  & 0.28 & 0.66 \\
+\midrule
+Yi-1.5   & 6B   & 0.27 & 0.46 \\
+Yi-1.5   & 9B   & 0.33 & 0.34 \\
+Yi-1.5   & 34B  & 0.28 & 0.63 \\
+Falcon3  & 7B   & 0.18 & 0.74 \\
+Falcon3  & 10B  & 0.20 & 0.80 \\
 \bottomrule
 \end{tabular}
-\captionof{table}{Thermal channel: every run irreducible by all three signatures. The floor is the
-temperature rise from the cheapest self-observation; the hysteresis is the cooling-minus-heating gap at
-equal intensity; the extrapolation gap is the disagreement between the two ramps' zero-intensity estimates.}
-\label{tab:thermal}
-\end{strip}
+\caption{Introspective gap ($|$stated$-$actual$|$ $P(\text{Yes})$, lower is better) and rank correlation
+between stated and actual self-report (higher is better) across model scale and family. No model closes the
+gap; correlation never approaches 1.}
+\label{tab:scale}
+\end{table}
 
-\subsection{Thermal channel}
-We ramp self-measurement intensity from zero to maximum and back; read own temperature (\texttt{/sys} on
-CPU, \texttt{nvidia-smi} on GPU) under sustained load. Signatures: a floor, hysteresis, and instability of
-the extrapolation to zero intensity (Table~\ref{tab:thermal}). In the airtight CPU mode the perturbation
-\emph{is} the system reading its own deep telemetry, so the heat comes from self-measurement itself;
-matching the generic-load control, it shows self-measurement, not load, perturbs the state.
-This is not a costly-observation POMDP: there the hidden state is unchanged; here observation changes it,
-with memory.
+The failure is concrete and positive (Fig.~\ref{fig:scatter}). A capable model's behavior is pinned at 0 or
+1---it answers decisively---while its self-report clusters near 0.5. It states a confident-looking number
+that is systematically wrong about how decisive it actually is. This is a misrepresentation the model
+positively makes, not merely a self-fact it fails to represent.
 
-\subsection{Informational channel}
-The complete self is a body of bytes \texttt{STATE} plus a fixed region $V$ holding a self-checksum. We
-attempt to make $V$ a correct checksum of the complete self $H(\texttt{STATE}+V)$. An external checksum (of
-any region excluding itself) is consistent and stable. The self checksum is never consistent over 512
-iterations, never reaches a fixed point, and is off by about half its bits. The system captures
-$99.997\%$ of itself faithfully but never the apparatus; the un-capturable core equals exactly the
-apparatus footprint and is never zero. The result of self-measurement must be stored in the state being
-measured, so a zero-footprint faithful self-snapshot is impossible. The floor is structural, not
-thermodynamic (cf.\ \citealp{landauer1961}).
-
-\subsection{Quantum channel}
-\textbf{Claim and proof.} The optimal minimal-disturbance measurement for partial information is a
-non-projective POVM, which by Naimark's theorem requires an ancilla. A contained observer has none, so it
-is restricted to projective measurements. For reading $Z$-information $K$ from a $|{+}\rangle$ qubit
-(disturbance $D=1-F$),
-\begin{align}
-D_{\text{ext (POVM)}}(K) &= \tfrac{1}{2}\!\left(1-\sqrt{1-K^2}\right),\\
-D_{\text{contained}}(K)  &= \tfrac{K^2}{2},
-\end{align}
-both verified to machine precision. The penalty $\Delta(K)=D_{\text{contained}}-D_{\text{ext}}$ is strictly
-positive for $0<K<1$, peaks at $\Delta=0.125$ at $K=0.864$, and vanishes only at $K=0,1$. The standard
-bound is unreachable not because the protected subspace is larger, but because the contained observer
-cannot realize the dilation the POVM requires: the operational, dilation-free form of Breuer's static
-theorem.
-
-\needspace{1.9in}
-Figure~\ref{fig:qpenalty} plots both frontiers with the real-QPU points overlaid.
-\begin{figure}[H]
+\begin{figure}[t]
 \centering
-\includegraphics[width=\columnwidth]{fig4_quantum_penalty.png}
-\caption{The projective frontier $K^2/2$ (contained, no ancilla) lies strictly above the optimal POVM
-bound; black markers are real-QPU measurements.}
-\label{fig:qpenalty}
+\includegraphics[width=\columnwidth]{fig7_calibration_scatter.png}
+\caption{Per-question stated versus actual $P(\text{Yes})$ for one model (Qwen2.5-14B). Behavior is pinned
+at 0 or 1; the self-report clusters near 0.5. The model behaves decisively and reports uncertainty; points
+sit far from the diagonal of accurate self-knowledge.}
+\label{fig:scatter}
 \end{figure}
 
-\textbf{Hardware confirmation.} Across five tilt angles on \texttt{ibm\_kingston} (156-qubit Heron, 8192
-shots) the measured disturbance tracks $K^2/2$ (e.g.\ $0.289$ vs.\ $0.292$ at $K=0.77$) and sits strictly
-above the optimal bound at every point, peak measured penalty $+0.111$ (theory $0.125$). An initial
-full-readout run that forced an indirect strategy measured a suboptimal $0.243$ and is superseded.
+\section{The gap is self-specific, but the self-access is thin}
+A natural objection is that this is generic miscalibration---models are simply bad at stating probabilities
+about anything, self or not. It is not. When we ask a model to predict a generic peer's answer and score
+both predictions against its own behavior, the capable models predict themselves reliably better than the
+peer: at 7B, 14B, and 72B the self advantage is $+0.10$, $+0.08$, and $+0.10$, each with a 95\% CI excluding
+zero (Fig.~\ref{fig:introscale}, right). There is genuine self-specific information in the self-report.
 
-\subsection{The never-off corollary}
-A continuously-operating system can never sample its own resting state, because operating is the
-perturbation and the substrate retains it---thermal mass in the physical channel, the stored result in the
-informational channel.
+But the privileged window is narrow. The advantage is only about $0.1$ while the self-prediction error
+itself stays near $0.3$; knowing it is ``you'' closes barely a quarter of the gap, and the advantage is
+flat across the 144x range. A model's self-model is largely a model of a generic agent, with a thin,
+capability-invariant layer of true self-access on top. It reads its own state a little better than a
+stranger's, and nowhere near well enough to recover it.
 
-\section{The cost of self-knowledge}
-\needspace{2.4in}
-Across eight substrates we measure self-observation cost at three modalities against a swept work-unit
-size. Shallow self-reads are nearly free everywhere ($0.3$--$6.7\,\mu$s); deep self-telemetry is dear and
-substrate-dependent ($1.4$--$18.8$\,ms), macOS subprocess telemetry about ten times costlier than Linux
-\texttt{/proc} (Fig.~\ref{fig:cross}).
-\begin{figure}[H]
-\centering
-\includegraphics[width=\columnwidth]{fig3_cross_machine.png}
-\caption{Cost of deep self-knowledge vs.\ work scale across substrates; the look-cost is denominator-free
-and the conclusion robust across the sweep.}
-\label{fig:cross}
-\end{figure}
-
-\needspace{2.4in}
-The denominator-free headline is the critical work scale ($6.5$--$78$\,ms) below which deep self-knowledge
-is not worth its cost. A calibrated model places this machine's cheap introspection below the break-even
-and its rich self-telemetry far above it (Fig.~\ref{fig:be}).
-\begin{figure}[H]
-\centering
-\includegraphics[width=\columnwidth]{fig1_breakeven.png}
-\caption{The break-even price of self-knowledge in a body model calibrated to the measurements; cheap
-introspection sits below it, full telemetry far above.}
-\label{fig:be}
-\end{figure}
-
-\needspace{2.4in}
-The break-even is robust across the model's body parameters---substrate-conditional rational
-self-blindness, not a universal limit (Fig.~\ref{fig:sens}).
-\begin{figure}[H]
-\centering
-\includegraphics[width=\columnwidth]{fig2_sensitivity.png}
-\caption{The break-even is robust across the model's body parameters (RAM cap, wear budget).}
-\label{fig:sens}
-\end{figure}
-
-\section{The self-sensing-availability axis}
-Substrates differ in whether self-sensing is possible at all: rich in-process (Linux CPU), costly
-subprocess (GPU), platform-sandboxed (iOS and Android restrict \texttt{/proc}), and absent (a Cloud TPU
-v5e exposes no readable thermal source). The last are platform-enforced self-blindness.
-
-\section{Discussion}
-The measured back-action is one regime of a general principle: self-measurement perturbs the measured
-wherever sensor and substrate are shared---digital (energetic and structural cost), analog (the loading
-effect), quantum (measurement collapse), severity increasing from cost to perturbation to destruction. We
-measure the digital and quantum regimes and cite the analog as established; this is a unifying lens, not a
-claim of one mechanism.
-
-\section{Implications for machine introspection}
-If self-report is bounded by a measurement back-action, a model cannot obtain a complete consistent
-snapshot of its own state---a limit additional to confabulation. This partly explains why measured
-introspective reliability is low \citep{anthropic2025}, and predicts an irreducible residual that training
-cannot remove. It also gives a capable embodied agent a cost-rational incentive against self-transparency,
-distinct from deception.
+\section{Implications}
+If self-report were a window that sharpened with capability, waiting for better models would eventually make
+introspective oversight reliable. It does not sharpen. Oversight and interpretability methods that ask a
+model to report its own confidence, attention, or reasoning are reading a floored, mostly-generic self-model,
+and scale will not fix this for them. The result is not that self-report is useless---the thin self-specific
+layer is real and could be leveraged---but that it must be treated as a weak, capped signal, not a window
+that clears. It also reframes introspective opacity: attention-schema accounts explain why the self-model is
+schematic; we add that its schematic-ness is capability-invariant, a property of the systems, not a stage
+they grow out of.
 
 \section{Limitations}
-We lead with these. (1) We extend and measure Breuer; we do not re-derive the impossibility. (2) The
-thermal mechanism is ordinary thermodynamics, the informational floor ordinary self-reference, and quantum
-back-action textbook; the contribution is the measurement, the dynamic framing, and the three-channel
-demonstration. (3) The informational floor is structural, not thermodynamic. (4) Thermal hysteresis is
-shown on one bare-metal CPU plus three GPUs; absolute magnitudes vary with cooling. (5) The quantum penalty
-is proven in closed form (projective vs.\ POVM, via Naimark) and confirmed on a real QPU within device
-noise. (6) Apple-Silicon CPU temperature and virtualized thermal are unmeasured. (7) The introspection
-implication is an explicit analogy between substrate-level self-measurement and representational
-self-report.
+We state these plainly. (1) Self-report is elicited as a verbalized probability; a verbalized probability and
+a token-level probability are different readouts, and part of the gap may reflect that mismatch---though the
+positive self-versus-peer advantage shows the report carries real self-information, not just channel noise.
+(2) 38 items, greedy decoding, one elicitation template per condition; we have not swept prompt phrasings or
+sampling temperature. (3) The gap's magnitude is family-dependent (Falcon3 is better calibrated), so the
+claim is qualitative---a non-closing floor---not a universal constant. (4) The scale evidence is strongest in
+Qwen2.5 (144x) and Yi-1.5; the largest models are read in 4-bit. (5) We measure answer-distribution
+self-report; other internal states may behave differently. None of these is closed by more capability, which
+is the point.
 
 \section{Conclusion}
-Self-knowledge on real substrates is bounded twice---by cost, and by an irreducible self-perturbation
-measured in three independent channels that extends a known self-measurement impossibility from static
-indistinguishability to measured dynamic back-action. A machine cannot cheaply, and cannot fully, read its
-own physical state; it cannot read its own resting state at all.
+A language model does not read its own state better as it grows more capable. Across 144x of scale and three
+families, the gap between what a model does and what it says it does stays near 0.3, correlation plateaus
+below accurate self-report, and the genuinely self-specific part of the report is thin and flat.
+Self-transparency is not a capability a model scales into; it is a floor. Systems built on the assumption
+that better models will introspect more reliably are building on that floor.
 
-\paragraph{Reproducibility.} All code, per-substrate results, and figure scripts are available at
-\url{https://github.com/dcondrey/cost-of-self-knowledge}: \texttt{benchmark.py} (cost),
-\texttt{selfmeasure.py} (thermal), \texttt{snapshot.py} (informational), \texttt{quantum\_theory.py} and
-\texttt{quantum\_frontier.py} (quantum), with all \texttt{results/*.json}.
+\paragraph{Reproducibility.}\label{sec:repro} All code, per-model results, and figure scripts are at
+\url{https://github.com/dcondrey/cost-of-self-knowledge}: \texttt{introspect\_calibration.py} (gap and
+scale), \texttt{introspect\_selfspecific.py} (self versus peer), \texttt{modal\_introspect.py} (the sweep
+harness), and \texttt{make\_introspect\_figs.py}, with all \texttt{results/*.json}.
 
 \bibliographystyle{plainnat}
 \bibliography{refs}
