@@ -1,4 +1,14 @@
-# ASDS simulation — kill-or-keep testbed
+<!-- repo-header:start -->
+<img src="https://github.com/dcondrey.png?size=160" alt="ASDS simulation — kill-or-keep testbed logo" width="120" align="left">
+
+<h1>ASDS simulation — kill-or-keep testbed</h1>
+
+<p><strong>Documentation for ASDS simulation — kill-or-keep testbed in Cost Of Self Knowledge.</strong></p>
+
+<br clear="left">
+
+[![CI](https://img.shields.io/github/actions/workflow/status/dcondrey/cost-of-self-knowledge/benchmark.yml?style=flat-square&labelColor=20232a&branch=main&label=CI)](https://github.com/dcondrey/cost-of-self-knowledge/actions/workflows/benchmark.yml) [![Best Practices Evidence](https://img.shields.io/badge/best%20practices-evidence%20reviewed-6a4c93?style=flat-square&labelColor=20232a)](../.bestpractices.json) [![GitHub Sponsors](https://img.shields.io/badge/GitHub%20Sponsors-Sponsor-EA4AAA?style=flat-square&labelColor=20232a)](https://github.com/sponsors/dcondrey)
+<!-- repo-header:end -->
 
 Implements the protocol in `../EXPERIMENT.md` (v2). Pure numpy, no ML framework dependency.
 
